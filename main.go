@@ -1,18 +1,21 @@
 package main
 
 import (
-	"github.com/Bekzhanizb/TaskManager/db"
-	"github.com/Bekzhanizb/TaskManager/models"
+	"github.com/Bekzhanizb/HabitTrackerBackend/db"
+	"github.com/Bekzhanizb/HabitTrackerBackend/models"
 )
 
 func main() {
-	database.Connect()
+	db.Connect()
 
-	database.DB.AutoMigrate(
+	err := db.DB.AutoMigrate(
 		&models.City{},
 		&models.User{},
 		&models.Habit{},
 		&models.HabitLog{},
 		&models.Achievement{},
 	)
+	if err != nil {
+		return
+	}
 }
