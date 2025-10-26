@@ -1,4 +1,4 @@
-module HabitTracker
+module github.com/Bekzhanizb/HabitTrackerBackend
 
 go 1.25
 
