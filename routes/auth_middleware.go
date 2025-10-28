@@ -1,12 +1,13 @@
 package routes
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/Bekzhanizb/HabitTrackerBackend/db"
 	"github.com/Bekzhanizb/HabitTrackerBackend/models"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
-	"net/http"
-	"strings"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
