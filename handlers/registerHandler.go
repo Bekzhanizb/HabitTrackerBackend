@@ -46,13 +46,16 @@ func RegisterHandler(c *gin.Context) {
 	file, err := c.FormFile("avatar")
 	avatarPath := ""
 	if err == nil {
-		os.MkdirAll("uploads/avatars", os.ModePerm)
-		avatarPath = filepath.Join("uploads/avatars", file.Filename)
-		avatarPath = "/" + avatarPath
-		if err := c.SaveUploadedFile(file, avatarPath); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка сохранения файла"})
+		os.MkdirAll("uploads", os.ModePerm)
+
+		filePath := filepath.Join("uploads", file.Filename)
+
+		if err := c.SaveUploadedFile(file, filePath); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка сохранения файла", "details": err.Error()})
 			return
 		}
+
+		avatarPath = "/" + filePath // Это путь для фронта
 	}
 
 	// Создаём пользователя

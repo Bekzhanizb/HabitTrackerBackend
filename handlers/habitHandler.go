@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Создание привычки
 func CreateHabit(c *gin.Context) {
 	var habit models.Habit
 
@@ -31,7 +30,6 @@ func CreateHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка успешно создана", "habit": habit})
 }
 
-// Получение всех привычек пользователя
 func GetHabits(c *gin.Context) {
 	userID := c.Query("user_id")
 
@@ -44,7 +42,6 @@ func GetHabits(c *gin.Context) {
 	c.JSON(http.StatusOK, habits)
 }
 
-// Отметить выполнение привычки
 func LogHabit(c *gin.Context) {
 	var log models.HabitLog
 
@@ -63,7 +60,6 @@ func LogHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка отмечена как выполненная", "log": log})
 }
 
-// UpdateHabit — обновляет привычку по id (PUT /habit/:id)
 func UpdateHabit(c *gin.Context) {
 	// получаем id из пути
 	id := c.Param("id")
@@ -75,7 +71,6 @@ func UpdateHabit(c *gin.Context) {
 		return
 	}
 
-	// привязываем входящие данные (json) — только поля, которые можно менять
 	var input struct {
 		Title       *string `json:"title"`
 		Description *string `json:"description"`
@@ -109,11 +104,9 @@ func UpdateHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Habit updated", "habit": habit})
 }
 
-// DeleteHabit — удаляет привычку по id (DELETE /habit/:id)
 func DeleteHabit(c *gin.Context) {
 	id := c.Param("id")
 
-	// убедимся, что привычка существует
 	var habit models.Habit
 	if err := db.DB.First(&habit, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Habit not found"})
