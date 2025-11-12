@@ -20,6 +20,11 @@ type User struct {
 	Achievements []Achievement `gorm:"foreignKey:UserID"`
 }
 
+const (
+	RoleAdmin = "admin"
+	RoleUser  = "user"
+)
+
 type Habit struct {
 	ID          uint       `gorm:"primaryKey" json:"id"`
 	UserID      uint       `json:"user_id"`
@@ -44,4 +49,12 @@ type Achievement struct {
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	EarnedAt    time.Time `gorm:"autoCreateTime" json:"earned_at"`
+}
+type Diary struct {
+	ID        uint      `gorm:"primaryKey" json:"id"`
+	UserID    uint      `json:"user_id"`
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }

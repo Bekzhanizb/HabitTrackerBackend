@@ -16,8 +16,9 @@ import (
 var jwtKey = []byte("supersecretkey")
 
 type Claims struct {
-	UserID   uint
-	Username string
+	UserID   uint   `json:"user_id"`
+	Username string `json:"username"`
+	Role     string `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -33,28 +34,28 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Проверяем, что пользователь не существует
+	// Check if user already exists
 	var existing models.User
 	if err := db.DB.Where("username = ?", input.Username).First(&existing).Error; err == nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "Username already exists"})
 		return
 	}
 
-	// Проверяем, что город существует
+	// Check if the city exists
 	var city models.City
 	if err := db.DB.First(&city, input.CityID).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid city ID"})
 		return
 	}
 
-	// Хэшируем пароль
+	// Hash the password
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.DefaultCost)
 
 	user := models.User{
 		Username:     input.Username,
 		PasswordHash: string(hashedPassword),
 		CityID:       &input.CityID,
-		Role:         "user",
+		Role:         "user", // Default role is user
 		Picture:      "/uploads/default.png",
 	}
 
@@ -63,11 +64,12 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Генерация JWT
+	// Generate JWT
 	expirationTime := time.Now().Add(24 * time.Hour)
 	claims := &Claims{
 		UserID:   user.ID,
 		Username: user.Username,
+		Role:     user.Role, // Include role in the token
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
@@ -75,7 +77,7 @@ func Register(c *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, _ := token.SignedString(jwtKey)
 
-	// Отправляем ответ фронтенду
+	// Send response
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "User registered successfully",
 		"token":   tokenString,
@@ -116,6 +118,7 @@ func Login(c *gin.Context) {
 	claims := &Claims{
 		UserID:   user.ID,
 		Username: user.Username,
+		Role:     user.Role, // Include role in the token
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
@@ -136,7 +139,6 @@ func Login(c *gin.Context) {
 	})
 }
 
-// UpdateProfile
 func UpdateProfile(c *gin.Context) {
 	user, exists := c.Get("user")
 	if !exists {
@@ -148,7 +150,7 @@ func UpdateProfile(c *gin.Context) {
 	username := c.PostForm("username")
 	cityID := c.PostForm("city_id")
 
-	// Uploads
+	// Upload avatar picture if provided
 	file, err := c.FormFile("picture")
 	if err == nil {
 		path := fmt.Sprintf("./uploads/%d_%s", currentUser.ID, file.Filename)
@@ -159,7 +161,7 @@ func UpdateProfile(c *gin.Context) {
 		currentUser.Picture = strings.TrimPrefix(path, ".")
 	}
 
-	if username != "" {
+	if username != "" && username != currentUser.Username {
 		currentUser.Username = username
 	}
 	if cityID != "" {

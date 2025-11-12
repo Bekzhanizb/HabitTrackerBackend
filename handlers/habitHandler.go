@@ -27,14 +27,39 @@ func CreateHabit(c *gin.Context) {
 		return
 	}
 
+	habitLog := models.HabitLog{
+		HabitID: habit.ID,
+		Date:    time.Now(),
+	}
+	if err := db.DB.Create(&habitLog).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка успешно создана", "habit": habit})
 }
 
 func GetHabits(c *gin.Context) {
-	userID := c.Query("user_id")
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+	currentUser := userInterface.(models.User)
 
 	var habits []models.Habit
-	if err := db.DB.Preload("Logs").Where("user_id = ?", userID).Find(&habits).Error; err != nil {
+	query := db.DB.Preload("Logs")
+
+	if currentUser.Role != models.RoleAdmin {
+		query = query.Where("user_id = ?", currentUser.ID)
+	} else {
+		userID := c.Query("user_id")
+		if userID != "" {
+			query = query.Where("user_id = ?", userID)
+		}
+	}
+
+	if err := query.Find(&habits).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при получении привычек"})
 		return
 	}
@@ -57,14 +82,51 @@ func LogHabit(c *gin.Context) {
 		return
 	}
 
+	habitLog := models.HabitLog{
+		HabitID: log.HabitID,
+		Date:    time.Now(),
+	}
+	if err := db.DB.Create(&habitLog).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога выполнения"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка отмечена как выполненная", "log": log})
 }
 
+func GetHabitLogs(c *gin.Context) {
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+	currentUser := userInterface.(models.User)
+
+	var logs []models.HabitLog
+	query := db.DB.Preload("Habit")
+
+	if currentUser.Role != models.RoleAdmin {
+		query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
+			Where("habits.user_id = ?", currentUser.ID)
+	} else {
+		userID := c.Query("user_id")
+		if userID != "" {
+			query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
+				Where("habits.user_id = ?", userID)
+		}
+	}
+
+	if err := query.Find(&logs).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при получении логов"})
+		return
+	}
+
+	c.JSON(http.StatusOK, logs)
+}
+
 func UpdateHabit(c *gin.Context) {
-	// получаем id из пути
 	id := c.Param("id")
 
-	// загружаем существующую привычку
 	var habit models.Habit
 	if err := db.DB.First(&habit, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Habit not found"})
@@ -82,7 +144,6 @@ func UpdateHabit(c *gin.Context) {
 		return
 	}
 
-	// обновляем поля, которые пришли
 	if input.Title != nil {
 		habit.Title = *input.Title
 	}
@@ -101,6 +162,15 @@ func UpdateHabit(c *gin.Context) {
 		return
 	}
 
+	habitLog := models.HabitLog{
+		HabitID: habit.ID,
+		Date:    time.Now(),
+	}
+	if err := db.DB.Create(&habitLog).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Habit updated", "habit": habit})
 }
 
@@ -110,6 +180,15 @@ func DeleteHabit(c *gin.Context) {
 	var habit models.Habit
 	if err := db.DB.First(&habit, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Habit not found"})
+		return
+	}
+
+	habitLog := models.HabitLog{
+		HabitID: habit.ID,
+		Date:    time.Now(),
+	}
+	if err := db.DB.Create(&habitLog).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога удаления"})
 		return
 	}
 
