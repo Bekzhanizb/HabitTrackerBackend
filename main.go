@@ -53,12 +53,15 @@ func main() {
 	habitRoutes := r.Group("/habits")
 	habitRoutes.Use(routes.AuthMiddleware())
 	{
-		habitRoutes.POST("/", handlers.CreateHabit)
 		habitRoutes.GET("/", handlers.GetHabits)
+		habitRoutes.POST("/", handlers.CreateHabit)
+
+		habitRoutes.POST("/log", handlers.LogHabit)
+		habitRoutes.GET("/logs", routes.RoleMiddleware(models.RoleAdmin), handlers.GetHabitLogs)
+
+		// Должно быть самым последним!
 		habitRoutes.PUT("/:id", handlers.UpdateHabit)
 		habitRoutes.DELETE("/:id", handlers.DeleteHabit)
-		habitRoutes.POST("/log", handlers.LogHabit)
-		habitRoutes.GET("/logs", routes.RoleMiddleware(models.RoleAdmin), handlers.GetHabitLogs) // доступно только админам
 	}
 
 	// Маршруты для городов

@@ -15,6 +15,7 @@ import (
 
 var jwtKey = []byte("supersecretkey")
 
+// TODO: Create role access control
 type Claims struct {
 	UserID   uint   `json:"user_id"`
 	Username string `json:"username"`

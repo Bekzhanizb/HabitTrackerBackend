@@ -40,6 +40,9 @@ func CreateHabit(c *gin.Context) {
 }
 
 func GetHabits(c *gin.Context) {
+
+	//TODO: Fix error while loading  habits
+
 	userInterface, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})

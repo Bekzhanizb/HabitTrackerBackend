@@ -21,7 +21,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
 
-		claims := &Claims{}
+		claims := jwt.MapClaims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return jwtKey, nil
 		})
@@ -32,8 +32,10 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		userID := uint(claims["user_id"].(float64))
+
 		var user models.User
-		if err := db.DB.First(&user, claims.UserID).Error; err != nil {
+		if err := db.DB.First(&user, userID).Error; err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
 			c.Abort()
 			return
@@ -41,6 +43,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		c.Set("user", user)
 		c.Set("role", user.Role)
+
 		c.Next()
 	}
 }
