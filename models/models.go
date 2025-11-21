@@ -33,7 +33,7 @@ type Habit struct {
 	Frequency   string     `json:"frequency"`
 	CreatedAt   time.Time  `gorm:"autoCreateTime" json:"created_at"`
 	IsActive    bool       `gorm:"default:true" json:"is_active"`
-	Logs        []HabitLog `gorm:"foreignKey:HabitID"`
+	Logs        []HabitLog `gorm:"foreignKey:HabitID" json:"logs"`
 }
 
 type HabitLog struct {
@@ -41,6 +41,7 @@ type HabitLog struct {
 	HabitID     uint      `json:"habit_id"`
 	Date        time.Time `json:"date"`
 	IsCompleted bool      `gorm:"default:false" json:"is_completed"`
+	Habit       Habit     `gorm:"foreignKey:HabitID" json:"habit,omitempty"`
 }
 
 type Achievement struct {

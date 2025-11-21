@@ -15,7 +15,7 @@ import (
 func RegisterHandler(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
-	cityIDStr := c.PostForm("city_id")
+	cityIDStr := c.PostForm("cityId") // Изменил city_id на cityId
 
 	if username == "" || password == "" || cityIDStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Заполните все поля"})
@@ -55,7 +55,7 @@ func RegisterHandler(c *gin.Context) {
 			return
 		}
 
-		avatarPath = "/" + filePath // Это путь для фронта
+		avatarPath = "/" + filePath
 	}
 
 	// Создаём пользователя
@@ -63,7 +63,7 @@ func RegisterHandler(c *gin.Context) {
 	user := models.User{
 		Username:     username,
 		PasswordHash: hashedPassword,
-		CityID:       &cityIDUint, // Теперь это указатель
+		CityID:       &cityIDUint,
 		Picture:      avatarPath,
 	}
 
@@ -79,7 +79,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Возвращаем успешный ответ
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Регистрация успешна",
 		"user": gin.H{

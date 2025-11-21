@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/Bekzhanizb/HabitTrackerBackend/db"
@@ -9,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateHabit создает новую привычку (оставляем лог создания один раз)
 func CreateHabit(c *gin.Context) {
 	var habit models.Habit
 
@@ -27,9 +29,11 @@ func CreateHabit(c *gin.Context) {
 		return
 	}
 
+	// Сохраняем ровно один лог при создании
 	habitLog := models.HabitLog{
-		HabitID: habit.ID,
-		Date:    time.Now(),
+		HabitID:     habit.ID,
+		Date:        time.Now(),
+		IsCompleted: false,
 	}
 	if err := db.DB.Create(&habitLog).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога"})
@@ -39,10 +43,8 @@ func CreateHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка успешно создана", "habit": habit})
 }
 
+// GetHabits возвращает привычки текущего пользователя (или фильтр для админа)
 func GetHabits(c *gin.Context) {
-
-	//TODO: Fix error while loading  habits
-
 	userInterface, exists := c.Get("user")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
@@ -58,7 +60,13 @@ func GetHabits(c *gin.Context) {
 	} else {
 		userID := c.Query("user_id")
 		if userID != "" {
-			query = query.Where("user_id = ?", userID)
+			// безопасно конвертим, но если не число — просто вернём ошибку
+			if _, err := strconv.Atoi(userID); err == nil {
+				query = query.Where("user_id = ?", userID)
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user_id"})
+				return
+			}
 		}
 	}
 
@@ -70,33 +78,57 @@ func GetHabits(c *gin.Context) {
 	c.JSON(http.StatusOK, habits)
 }
 
+// LogHabit — помечаем выполнение привычки, создаём ровно один лог
 func LogHabit(c *gin.Context) {
-	var log models.HabitLog
+	var input struct {
+		HabitID     uint  `json:"habit_id" binding:"required"`
+		IsCompleted *bool `json:"is_completed"`
+	}
 
-	if err := c.ShouldBindJSON(&log); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Некорректные данные"})
 		return
 	}
 
-	log.Date = time.Now()
+	// проверяем владельца привычки
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+	currentUser := userInterface.(models.User)
+
+	var habit models.Habit
+	if err := db.DB.First(&habit, input.HabitID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Habit not found"})
+		return
+	}
+	if habit.UserID != currentUser.ID && currentUser.Role != models.RoleAdmin {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Нет доступа к этой привычке"})
+		return
+	}
+
+	// единый лог — помечаем дату и передачаем isCompleted (по умолчанию true)
+	isCompleted := true
+	if input.IsCompleted != nil {
+		isCompleted = *input.IsCompleted
+	}
+
+	log := models.HabitLog{
+		HabitID:     input.HabitID,
+		Date:        time.Now(),
+		IsCompleted: isCompleted,
+	}
 
 	if err := db.DB.Create(&log).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога"})
 		return
 	}
 
-	habitLog := models.HabitLog{
-		HabitID: log.HabitID,
-		Date:    time.Now(),
-	}
-	if err := db.DB.Create(&habitLog).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога выполнения"})
-		return
-	}
-
 	c.JSON(http.StatusOK, gin.H{"message": "Привычка отмечена как выполненная", "log": log})
 }
 
+// GetHabitLogs — возвращает логи; админ может фильтровать по user_id
 func GetHabitLogs(c *gin.Context) {
 	userInterface, exists := c.Get("user")
 	if !exists {
@@ -109,6 +141,7 @@ func GetHabitLogs(c *gin.Context) {
 	query := db.DB.Preload("Habit")
 
 	if currentUser.Role != models.RoleAdmin {
+		// присоединяемся к habits и фильтруем по user
 		query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
 			Where("habits.user_id = ?", currentUser.ID)
 	} else {
@@ -127,12 +160,26 @@ func GetHabitLogs(c *gin.Context) {
 	c.JSON(http.StatusOK, logs)
 }
 
+// UpdateHabit — проверяем владельца, применяем изменения
 func UpdateHabit(c *gin.Context) {
 	id := c.Param("id")
 
 	var habit models.Habit
 	if err := db.DB.First(&habit, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Habit not found"})
+		return
+	}
+
+	// проверка владельца
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
+	}
+	currentUser := userInterface.(models.User)
+
+	if habit.UserID != currentUser.ID && currentUser.Role != models.RoleAdmin {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Нет доступа к этой привычке"})
 		return
 	}
 
@@ -165,18 +212,11 @@ func UpdateHabit(c *gin.Context) {
 		return
 	}
 
-	habitLog := models.HabitLog{
-		HabitID: habit.ID,
-		Date:    time.Now(),
-	}
-	if err := db.DB.Create(&habitLog).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога"})
-		return
-	}
-
+	// при обновлении лог создавать не будем, чтобы не засорять таблицу
 	c.JSON(http.StatusOK, gin.H{"message": "Habit updated", "habit": habit})
 }
 
+// DeleteHabit — проверяем владельца и удаляем; не создаём лог удаления
 func DeleteHabit(c *gin.Context) {
 	id := c.Param("id")
 
@@ -186,12 +226,22 @@ func DeleteHabit(c *gin.Context) {
 		return
 	}
 
-	habitLog := models.HabitLog{
-		HabitID: habit.ID,
-		Date:    time.Now(),
+	// проверка владельца
+	userInterface, exists := c.Get("user")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		return
 	}
-	if err := db.DB.Create(&habitLog).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при сохранении лога удаления"})
+	currentUser := userInterface.(models.User)
+
+	if habit.UserID != currentUser.ID && currentUser.Role != models.RoleAdmin {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Нет доступа к этой привычке"})
+		return
+	}
+
+	// удаляем связанные логи сначала (чтобы не осталось orphan records)
+	if err := db.DB.Where("habit_id = ?", habit.ID).Delete(&models.HabitLog{}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete habit logs"})
 		return
 	}
 
