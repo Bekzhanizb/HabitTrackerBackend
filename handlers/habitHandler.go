@@ -10,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateHabit создает новую привычку (оставляем лог создания один раз)
 func CreateHabit(c *gin.Context) {
 	var habit models.Habit
 
