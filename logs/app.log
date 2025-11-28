@@ -1,0 +1,8 @@
+{"level":"info","ts":1764371293.023125,"caller":"HabitTracker/main.go:30","msg":"starting_application"}
+{"level":"info","ts":1764371293.155868,"caller":"HabitTracker/main.go:154","msg":"starting_http_server","port":"8080"}
+{"level":"info","ts":1764371313.0761666,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/health","status":200,"duration":0.000214143,"client_ip":"::1"}
+{"level":"info","ts":1764371313.1443338,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/favicon.ico","status":404,"duration":0.000004349,"client_ip":"::1"}
+{"level":"warn","ts":1764371422.537639,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764371422.5379074,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000331855,"client_ip":"::1"}
+{"level":"info","ts":1764371528.8394349,"caller":"HabitTracker/main.go:175","msg":"shutting_down_server"}
+{"level":"info","ts":1764371528.8396995,"caller":"HabitTracker/main.go:185","msg":"server_stopped"}

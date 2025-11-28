@@ -1,0 +1,13 @@
+groups:
+  - name: habit_tracker_alerts
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          (sum(rate(app_errors_total[5m])) / sum(rate(app_http_requests_total[5m]))) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая частота ошибок"
+          description: "Частота ошибок {{ $value | humanizePercentage }}"

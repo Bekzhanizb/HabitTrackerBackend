@@ -1,4 +1,4 @@
-package routes
+package middleware
 
 import (
 	"fmt"
@@ -13,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var jwtKey = []byte("supersecretkey")
+var JwtKey = []byte("supersecretkey")
 
 // TODO: Create role access control
 type Claims struct {
@@ -76,7 +76,7 @@ func Register(c *gin.Context) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, _ := token.SignedString(jwtKey)
+	tokenString, _ := token.SignedString(JwtKey)
 
 	// Send response
 	c.JSON(http.StatusCreated, gin.H{
@@ -126,7 +126,7 @@ func Login(c *gin.Context) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, _ := token.SignedString(jwtKey)
+	tokenString, _ := token.SignedString(JwtKey)
 
 	c.JSON(http.StatusOK, gin.H{
 		"token": tokenString,
