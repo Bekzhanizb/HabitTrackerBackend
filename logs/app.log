@@ -6,3 +6,46 @@
 {"level":"info","ts":1764371422.5379074,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000331855,"client_ip":"::1"}
 {"level":"info","ts":1764371528.8394349,"caller":"HabitTracker/main.go:175","msg":"shutting_down_server"}
 {"level":"info","ts":1764371528.8396995,"caller":"HabitTracker/main.go:185","msg":"server_stopped"}
+{"level":"info","ts":1764391497.8496044,"caller":"HabitTracker/main.go:30","msg":"starting_application"}
+{"level":"info","ts":1764391498.1382492,"caller":"HabitTracker/main.go:154","msg":"starting_http_server","port":"8080"}
+{"level":"warn","ts":1764391500.6411166,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764391500.6413705,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000399419,"client_ip":"::1"}
+{"level":"info","ts":1764391597.3434522,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/register","status":404,"duration":0.000062233,"client_ip":"::1"}
+{"level":"info","ts":1764391616.4151292,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/register","status":404,"duration":0.000007024,"client_ip":"::1"}
+{"level":"info","ts":1764391619.4083443,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/register","status":404,"duration":0.000113403,"client_ip":"::1"}
+{"level":"info","ts":1764391661.243157,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/register","status":404,"duration":0.000007003,"client_ip":"::1"}
+{"level":"warn","ts":1764391667.133532,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764391667.1338406,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000330893,"client_ip":"::1"}
+{"level":"info","ts":1764391787.2482119,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":409,"duration":0.001624489,"client_ip":"::1"}
+{"level":"warn","ts":1764391816.704927,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"Key: 'Password' Error:Field validation for 'Password' failed on the 'min' tag"}
+{"level":"info","ts":1764391816.7050152,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000172894,"client_ip":"::1"}
+{"level":"info","ts":1764391848.2748327,"caller":"routes/auth_routes.go:80","msg":"user_registered","user_id":14,"username":"Madina"}
+{"level":"info","ts":1764391848.275069,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":201,"duration":2.579439393,"client_ip":"::1"}
+{"level":"info","ts":1764391900.959809,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/metrics","status":200,"duration":0.005138537,"client_ip":"::1"}
+{"level":"info","ts":1764391901.160138,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/favicon.ico","status":404,"duration":0.000007454,"client_ip":"::1"}
+{"level":"info","ts":1764391941.9436665,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/metrics","status":200,"duration":0.003501501,"client_ip":"::1"}
+{"level":"info","ts":1764392003.2853193,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/habits","status":404,"duration":0.000006592,"client_ip":"::1"}
+{"level":"info","ts":1764392012.3979137,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":401,"duration":0.000210627,"client_ip":"::1"}
+{"level":"info","ts":1764392018.503385,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001711773,"client_ip":"::1"}
+{"level":"warn","ts":1764392068.271542,"caller":"handlers/habitHandler.go:57","msg":"unauthorized_habit_creation","current_user_id":14,"requested_user_id":1}
+{"level":"info","ts":1764392068.2716882,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":403,"duration":0.002010626,"client_ip":"::1"}
+{"level":"warn","ts":1764392077.8122842,"caller":"handlers/habitHandler.go:57","msg":"unauthorized_habit_creation","current_user_id":14,"requested_user_id":1}
+{"level":"info","ts":1764392077.8124368,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":403,"duration":0.001287655,"client_ip":"::1"}
+{"level":"warn","ts":1764392181.6996925,"caller":"handlers/habitHandler.go:57","msg":"unauthorized_habit_creation","current_user_id":14,"requested_user_id":1}
+{"level":"info","ts":1764392181.6998582,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":403,"duration":0.001137884,"client_ip":"::1"}
+{"level":"warn","ts":1764392187.7205315,"caller":"handlers/habitHandler.go:29","msg":"invalid_create_habit_request","error":"Key: 'CreateHabitRequest.Frequency' Error:Field validation for 'Frequency' failed on the 'required' tag","client_ip":"::1"}
+{"level":"info","ts":1764392187.7206886,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":400,"duration":0.001171237,"client_ip":"::1"}
+{"level":"warn","ts":1764392192.451035,"caller":"handlers/habitHandler.go:57","msg":"unauthorized_habit_creation","current_user_id":14,"requested_user_id":1}
+{"level":"info","ts":1764392192.4512944,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":403,"duration":0.001484027,"client_ip":"::1"}
+{"level":"warn","ts":1764392203.876128,"caller":"handlers/habitHandler.go:57","msg":"unauthorized_habit_creation","current_user_id":14,"requested_user_id":1}
+{"level":"info","ts":1764392203.876437,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":403,"duration":0.001663996,"client_ip":"::1"}
+{"level":"warn","ts":1764392258.7083426,"caller":"routes/auth_routes.go:102","msg":"invalid_login_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764392258.708626,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":400,"duration":0.00024438,"client_ip":"::1"}
+{"level":"warn","ts":1764392303.8010964,"caller":"routes/auth_routes.go:110","msg":"login_user_not_found","username":"Bekzhan"}
+{"level":"info","ts":1764392303.801235,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":401,"duration":0.001505976,"client_ip":"::1"}
+{"level":"info","ts":1764392325.0234342,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764392325.0235584,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.153339939,"client_ip":"::1"}
+{"level":"info","ts":1764392344.3542335,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.002204201,"client_ip":"::1"}
+{"level":"info","ts":1764392379.2158122,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/health","status":200,"duration":0.000118544,"client_ip":"::1"}
+{"level":"info","ts":1764392560.0874205,"caller":"HabitTracker/main.go:175","msg":"shutting_down_server"}
+{"level":"info","ts":1764392560.0878193,"caller":"HabitTracker/main.go:185","msg":"server_stopped"}
