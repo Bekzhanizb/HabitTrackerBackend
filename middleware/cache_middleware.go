@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Bekzhanizb/HabitTrackerBackend/cache"
+	"github.com/Bekzhanizb/HabitTrackerBackend/models"
 	"github.com/Bekzhanizb/HabitTrackerBackend/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -21,14 +22,30 @@ func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 			return
 		}
 
-		// Generate cache key from URL and user ID
-		userInterface, exists := c.Get("user")
+		// 🔥 FIX: Безопасное получение user ID из контекста
 		userID := uint(0)
-		if exists {
-			userID = userInterface.(gin.H)["id"].(uint)
+		if userInterface, exists := c.Get("user"); exists {
+			// Проверяем тип безопасно
+			if user, ok := userInterface.(models.User); ok {
+				userID = user.ID
+				utils.Logger.Debug("cache_user_found", zap.Uint("user_id", userID))
+			} else {
+				// Логируем предупреждение, но НЕ паникуем
+				utils.Logger.Warn("cache_invalid_user_type",
+					zap.String("expected", "models.User"),
+					zap.String("actual", fmt.Sprintf("%T", userInterface)),
+				)
+			}
+		} else {
+			utils.Logger.Debug("cache_no_user_in_context")
 		}
 
-		cacheKey := fmt.Sprintf("cache:%d:%s", userID, c.Request.URL.Path)
+		// Generate cache key from URL and user ID
+		cacheKey := fmt.Sprintf("cache:%d:%s?%s", userID, c.Request.URL.Path, c.Request.URL.RawQuery)
+
+		utils.Logger.Debug("cache_check",
+			zap.String("key", cacheKey),
+			zap.Uint("user_id", userID))
 
 		// Try to get from cache
 		var cachedResponse CachedResponse
@@ -58,7 +75,7 @@ func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 
 		c.Next()
 
-		// Cache successful responses
+		// Cache successful responses only
 		if c.Writer.Status() == http.StatusOK {
 			cachedResp := CachedResponse{
 				Status:      c.Writer.Status(),
@@ -68,7 +85,15 @@ func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 			}
 
 			if err := cache.Set(cacheKey, cachedResp, duration); err != nil {
-				utils.Logger.Warn("cache_set_failed", zap.Error(err))
+				utils.Logger.Warn("cache_set_failed",
+					zap.Error(err),
+					zap.String("key", cacheKey),
+				)
+			} else {
+				utils.Logger.Info("cache_set_success",
+					zap.String("key", cacheKey),
+					zap.Duration("ttl", duration),
+				)
 			}
 		}
 	}
@@ -99,6 +124,7 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 // InvalidateUserCache invalidates all cache entries for a specific user
 func InvalidateUserCache(userID uint) error {
 	pattern := fmt.Sprintf("cache:%d:*", userID)
+	utils.Logger.Info("invalidating_user_cache", zap.Uint("user_id", userID))
 	return cache.DeletePattern(pattern)
 }
 
@@ -112,9 +138,15 @@ func InvalidateHabitCache(userID uint) error {
 
 	for _, pattern := range patterns {
 		if err := cache.Delete(pattern); err != nil {
+			utils.Logger.Warn("cache_delete_failed",
+				zap.String("pattern", pattern),
+				zap.Error(err),
+			)
 			return err
 		}
 	}
+
+	utils.Logger.Info("habit_cache_invalidated", zap.Uint("user_id", userID))
 	return nil
 }
 
@@ -134,7 +166,7 @@ func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc 
 
 		// Set headers
 		c.Header("X-RateLimit-Limit", fmt.Sprintf("%d", maxRequests))
-		c.Header("X-RateLimit-Remaining", fmt.Sprintf("%d", maxRequests-int(count)))
+		c.Header("X-RateLimit-Remaining", fmt.Sprintf("%d", max(0, maxRequests-int(count))))
 
 		// Check if limit exceeded
 		if count > int64(maxRequests) {
@@ -143,7 +175,7 @@ func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc 
 				zap.Int64("count", count),
 			)
 			c.JSON(http.StatusTooManyRequests, gin.H{
-				"error": "Rate limit exceeded. Please try again later.",
+				"error": "Слишком много запросов. Попробуйте позже.",
 			})
 			c.Abort()
 			return
@@ -151,4 +183,11 @@ func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc 
 
 		c.Next()
 	}
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }

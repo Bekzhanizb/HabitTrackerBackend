@@ -66,6 +66,17 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
+	// В main.go, после r := gin.New()
+	r.GET("/debug/context", handlers.AuthMiddleware(), func(c *gin.Context) {
+		userInterface, exists := c.Get("user")
+
+		c.JSON(200, gin.H{
+			"user_exists": exists,
+			"user_type":   fmt.Sprintf("%T", userInterface),
+			"user_value":  userInterface,
+		})
+	})
+
 	// Core middleware
 	r.Use(middleware.Recovery())
 	r.Use(middleware.RequestLogger())
@@ -122,6 +133,8 @@ func main() {
 		{
 			// GET кэшируется на 2 минуты
 			habits.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetHabits)
+			//habits.GET("", handlers.GetHabits)
+
 			habits.POST("", handlers.CreateHabit)
 			habits.POST("/log", handlers.LogHabit)
 			habits.PUT("/:id", handlers.UpdateHabit)
@@ -148,6 +161,8 @@ func main() {
 		diary := api.Group("/diary")
 		{
 			diary.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetDiary)
+			//diary.GET("", handlers.GetDiary)
+
 			diary.POST("", handlers.CreateDiary)
 			diary.PUT("/:id", handlers.UpdateDiary)
 			diary.DELETE("/:id", handlers.DeleteDiary)

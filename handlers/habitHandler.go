@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -24,7 +25,6 @@ type CreateHabitRequest struct {
 func CreateHabit(c *gin.Context) {
 	var req CreateHabitRequest
 
-	// Валидация входных данных
 	if err := c.ShouldBindJSON(&req); err != nil {
 		utils.Logger.Warn("invalid_create_habit_request",
 			zap.Error(err),
@@ -35,7 +35,6 @@ func CreateHabit(c *gin.Context) {
 		return
 	}
 
-	// Дополнительная валидация через validator
 	if err := middleware.ValidateStruct(req); err != nil {
 		utils.Logger.Warn("validation_failed", zap.Error(err))
 		utils.ErrorCount.WithLabelValues("CreateHabit", "validation").Inc()
@@ -43,16 +42,24 @@ func CreateHabit(c *gin.Context) {
 		return
 	}
 
-	// Проверка владельца
+	// 🔥 FIX: Безопасное получение пользователя
 	userInterface, exists := c.Get("user")
 	if !exists {
+		utils.Logger.Error("user_not_found_in_context")
 		utils.ErrorCount.WithLabelValues("CreateHabit", "auth").Inc()
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	currentUser := userInterface.(models.User)
 
-	// Обычный пользователь может создавать только свои привычки
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type_in_context",
+			zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.ErrorCount.WithLabelValues("CreateHabit", "auth").Inc()
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
+		return
+	}
+
 	if currentUser.Role != models.RoleAdmin && req.UserID != currentUser.ID {
 		utils.Logger.Warn("unauthorized_habit_creation",
 			zap.Uint("current_user_id", currentUser.ID),
@@ -81,7 +88,6 @@ func CreateHabit(c *gin.Context) {
 		return
 	}
 
-	// Создаем начальный лог
 	habitLog := models.HabitLog{
 		HabitID:     habit.ID,
 		Date:        time.Now(),
@@ -105,21 +111,50 @@ func CreateHabit(c *gin.Context) {
 }
 
 func GetHabits(c *gin.Context) {
+	utils.Logger.Info("GetHabits started", zap.String("path", c.Request.URL.Path))
+
+	// 🔥 FIX: Безопасное получение пользователя с детальным логированием
 	userInterface, exists := c.Get("user")
 	if !exists {
+		utils.Logger.Error("user_not_found_in_context",
+			zap.String("headers", fmt.Sprintf("%v", c.Request.Header)))
 		utils.ErrorCount.WithLabelValues("GetHabits", "auth").Inc()
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized - user not in context"})
 		return
 	}
-	currentUser := userInterface.(models.User)
+
+	utils.Logger.Info("user_interface_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+
+	// Безопасный type assertion
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type_assertion",
+			zap.String("expected", "models.User"),
+			zap.String("actual", fmt.Sprintf("%T", userInterface)),
+			zap.Any("value", userInterface),
+		)
+		utils.ErrorCount.WithLabelValues("GetHabits", "auth").Inc()
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Invalid user type in context",
+			"debug": fmt.Sprintf("Expected models.User, got %T", userInterface),
+		})
+		return
+	}
+
+	utils.Logger.Info("current_user_retrieved",
+		zap.Uint("id", currentUser.ID),
+		zap.String("username", currentUser.Username),
+		zap.String("role", currentUser.Role))
 
 	var habits []models.Habit
 	query := db.DB.Preload("Logs")
 
 	if currentUser.Role != models.RoleAdmin {
 		query = query.Where("user_id = ?", currentUser.ID)
+		utils.Logger.Info("user_query", zap.Uint("user_id", currentUser.ID))
 	} else {
 		userID := c.Query("user_id")
+		utils.Logger.Info("admin_query", zap.String("user_id_param", userID))
 		if userID != "" {
 			if id, err := strconv.Atoi(userID); err == nil {
 				query = query.Where("user_id = ?", id)
@@ -131,13 +166,18 @@ func GetHabits(c *gin.Context) {
 		}
 	}
 
+	utils.Logger.Info("executing_database_query")
 	if err := query.Find(&habits).Error; err != nil {
 		utils.Logger.Error("db_get_habits_failed", zap.Error(err))
 		utils.ErrorCount.WithLabelValues("GetHabits", "database").Inc()
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при получении привычек"})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Ошибка при получении привычек",
+			"details": err.Error(),
+		})
 		return
 	}
 
+	utils.Logger.Info("habits_retrieved_successfully", zap.Int("count", len(habits)))
 	c.JSON(http.StatusOK, habits)
 }
 
@@ -168,7 +208,14 @@ func LogHabit(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	currentUser := userInterface.(models.User)
+
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.ErrorCount.WithLabelValues("LogHabit", "auth").Inc()
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
+		return
+	}
 
 	var habit models.Habit
 	if err := db.DB.First(&habit, req.HabitID).Error; err != nil {
@@ -224,7 +271,14 @@ func GetHabitLogs(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	currentUser := userInterface.(models.User)
+
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.ErrorCount.WithLabelValues("GetHabitLogs", "auth").Inc()
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
+		return
+	}
 
 	var logs []models.HabitLog
 	query := db.DB.Preload("Habit")
@@ -274,7 +328,14 @@ func UpdateHabit(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	currentUser := userInterface.(models.User)
+
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.ErrorCount.WithLabelValues("UpdateHabit", "auth").Inc()
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
+		return
+	}
 
 	if habit.UserID != currentUser.ID && currentUser.Role != models.RoleAdmin {
 		utils.Logger.Warn("unauthorized_habit_update",
@@ -335,7 +396,14 @@ func DeleteHabit(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
-	currentUser := userInterface.(models.User)
+
+	currentUser, ok := userInterface.(models.User)
+	if !ok {
+		utils.Logger.Error("invalid_user_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.ErrorCount.WithLabelValues("DeleteHabit", "auth").Inc()
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
+		return
+	}
 
 	if habit.UserID != currentUser.ID && currentUser.Role != models.RoleAdmin {
 		utils.Logger.Warn("unauthorized_habit_delete",
@@ -347,7 +415,6 @@ func DeleteHabit(c *gin.Context) {
 		return
 	}
 
-	// Удаляем связанные логи
 	if err := db.DB.Where("habit_id = ?", habit.ID).Delete(&models.HabitLog{}).Error; err != nil {
 		utils.Logger.Error("db_delete_logs_failed", zap.Error(err))
 		utils.ErrorCount.WithLabelValues("DeleteHabit", "database").Inc()

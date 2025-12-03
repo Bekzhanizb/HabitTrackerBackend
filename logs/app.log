@@ -127,3 +127,296 @@
 {"level":"error","ts":1764698001.8046477,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
 {"level":"info","ts":1764698304.6102874,"caller":"HabitTracker/main.go:373","msg":"shutting_down_server"}
 {"level":"info","ts":1764698304.6107485,"caller":"HabitTracker/main.go:383","msg":"server_stopped"}
+{"level":"info","ts":1764745931.6775813,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764745931.8210948,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764745931.8218,"caller":"HabitTracker/main.go:338","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764745943.5022857,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits","status":204,"duration":0.00052084,"client_ip":"::1"}
+{"level":"error","ts":1764745943.5060484,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764745950.2136846,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":401,"duration":0.000318299,"client_ip":"::1"}
+{"level":"error","ts":1764745972.5647151,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"error","ts":1764746031.6733694,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764746314.6252654,"caller":"HabitTracker/main.go:373","msg":"shutting_down_server"}
+{"level":"info","ts":1764746314.6254416,"caller":"HabitTracker/main.go:383","msg":"server_stopped"}
+{"level":"info","ts":1764746316.4467206,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764746316.5461397,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764746316.5464923,"caller":"HabitTracker/main.go:338","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"error","ts":1764746323.2246184,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"error","ts":1764746353.0672216,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764746365.3959534,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/login","status":204,"duration":0.000238997,"client_ip":"::1"}
+{"level":"info","ts":1764746365.5069065,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764746365.5070076,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.108444952,"client_ip":"::1"}
+{"level":"info","ts":1764746365.544007,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/cities","status":204,"duration":0.000229549,"client_ip":"::1"}
+{"level":"info","ts":1764746365.5476732,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.001082922,"client_ip":"::1"}
+{"level":"error","ts":1764746367.0852408,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"error","ts":1764746384.3374546,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747624.6930268,"caller":"HabitTracker/main.go:373","msg":"shutting_down_server"}
+{"level":"info","ts":1764747624.6932104,"caller":"HabitTracker/main.go:383","msg":"server_stopped"}
+{"level":"info","ts":1764747626.3396738,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764747626.4436975,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764747626.4441557,"caller":"HabitTracker/main.go:338","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764747637.3647587,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764747637.3648586,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.092623814,"client_ip":"::1"}
+{"level":"info","ts":1764747637.4029133,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747637.4030118,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747637.4030743,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747637.403118,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747637.403725,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747637.40375,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747637.4037673,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747654.5224912,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747654.5225382,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747654.5225883,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764832765,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747654.522609,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747654.523066,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747654.523085,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747654.5231113,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747654.9295797,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747654.9296432,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747654.929704,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764832765,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747654.9297273,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747654.9301147,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747654.9301455,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747654.9301627,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747785.701194,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747785.7012396,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747785.7012923,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747785.7013104,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747785.7017157,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747785.7017314,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747785.7017412,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747870.7756622,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits","status":204,"duration":0.000349528,"client_ip":"::1"}
+{"level":"info","ts":1764747870.7783854,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747870.7784257,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747870.7784817,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747870.7785027,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747870.7791388,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747870.7791579,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747870.7791724,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747874.8696005,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747874.8696618,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747874.8697093,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747874.8697288,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747874.8702598,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747874.8702822,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747874.8702955,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747875.7667425,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747875.766784,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747875.7668316,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747875.7668507,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747875.7671676,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747875.7671952,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747875.7672114,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747898.7849746,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747898.7852194,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747898.785293,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747898.7853305,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747898.785919,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747898.785954,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747898.7859788,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747907.448908,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764747907.4489672,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764747907.4490273,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764747907.449051,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764747907.4494503,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764747907.4494767,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"error","ts":1764747907.4494922,"caller":"middleware/recovery.go:15","msg":"panic_recovered","panic":"interface conversion: interface {} is models.User, not gin.H"}
+{"level":"info","ts":1764747973.855338,"caller":"HabitTracker/main.go:373","msg":"shutting_down_server"}
+{"level":"info","ts":1764747973.855471,"caller":"HabitTracker/main.go:383","msg":"server_stopped"}
+{"level":"info","ts":1764747975.3305433,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764747975.4345427,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764747975.4349291,"caller":"HabitTracker/main.go:349","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764748005.3721254,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/debug/context"}
+{"level":"info","ts":1764748005.3722086,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764748005.3722703,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764832765,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764748005.3722975,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764748005.373043,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748005.3730714,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764748383.1209338,"caller":"HabitTracker/main.go:384","msg":"shutting_down_server"}
+{"level":"info","ts":1764748383.1211522,"caller":"HabitTracker/main.go:394","msg":"server_stopped"}
+{"level":"info","ts":1764748384.5379028,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764748384.6398773,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764748384.640285,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764748389.4774687,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764748389.4775064,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764748389.4775844,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764748389.4776204,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764748389.4784703,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748389.4784935,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764748389.4785032,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764748389.478515,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764748389.478524,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748389.4785438,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":1}
+{"level":"info","ts":1764748389.4785602,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764748389.479132,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":3}
+{"level":"info","ts":1764748389.4792747,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.002072813,"client_ip":"::1"}
+{"level":"info","ts":1764748499.6447058,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits/log","status":204,"duration":0.000545617,"client_ip":"::1"}
+{"level":"info","ts":1764748499.6497815,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits/log"}
+{"level":"info","ts":1764748499.649826,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764748499.6498814,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764748499.6499066,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764748499.650495,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748499.6505246,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764748499.6576016,"caller":"handlers/habitHandler.go:259","msg":"habit_logged","habit_id":1,"is_completed":true}
+{"level":"info","ts":1764748499.6577823,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits/log","status":200,"duration":0.008133535,"client_ip":"::1"}
+{"level":"info","ts":1764748499.6629636,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764748499.663002,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764748499.6630466,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764834037,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764748499.6630647,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764748499.6634178,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748499.6634483,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764748499.6634598,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764748499.6634727,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764748499.6634817,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764748499.6634943,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":1}
+{"level":"info","ts":1764748499.6635041,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764748499.6638207,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":3}
+{"level":"info","ts":1764748499.6638827,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001095252,"client_ip":"::1"}
+{"level":"info","ts":1764748508.673869,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.00077522,"client_ip":"::1"}
+{"level":"info","ts":1764748535.6612036,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/register","status":204,"duration":0.000230434,"client_ip":"::1"}
+{"level":"info","ts":1764748535.6649156,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.000260842,"client_ip":"::1"}
+{"level":"info","ts":1764748739.7843952,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000452422,"client_ip":"::1"}
+{"level":"info","ts":1764748752.778733,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000325533,"client_ip":"::1"}
+{"level":"info","ts":1764748757.3050117,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/register","status":204,"duration":0.000353285,"client_ip":"::1"}
+{"level":"warn","ts":1764748757.3098538,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764748757.3099647,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000522564,"client_ip":"::1"}
+{"level":"info","ts":1764748759.1486297,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000358926,"client_ip":"::1"}
+{"level":"warn","ts":1764748774.5189686,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764748774.5190392,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000446611,"client_ip":"::1"}
+{"level":"info","ts":1764749425.9005713,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764749425.9008763,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764749427.615846,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764749427.717268,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764749427.7176213,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764749442.2378979,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000662809,"client_ip":"::1"}
+{"level":"warn","ts":1764749461.76786,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764749461.7679617,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.001392673,"client_ip":"::1"}
+{"level":"info","ts":1764749485.8196132,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000349789,"client_ip":"::1"}
+{"level":"info","ts":1764749487.4478111,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.000301658,"client_ip":"::1"}
+{"level":"info","ts":1764749490.053134,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000441482,"client_ip":"::1"}
+{"level":"info","ts":1764749498.92478,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.002195094,"client_ip":"::1"}
+{"level":"info","ts":1764749557.6700013,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764749557.6701183,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.104752444,"client_ip":"::1"}
+{"level":"info","ts":1764749557.720255,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000375928,"client_ip":"::1"}
+{"level":"info","ts":1764749559.1708791,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749559.1709337,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749559.1710045,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749559.1710315,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749559.1717224,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749559.1717594,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749559.1719294,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749559.1719604,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764749559.1719778,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764749559.1719897,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749559.1720176,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":1}
+{"level":"info","ts":1764749559.1720269,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764749559.17288,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":3}
+{"level":"info","ts":1764749559.1732423,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:1:/api/habits?","ttl":120}
+{"level":"info","ts":1764749559.1733093,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.002616417,"client_ip":"::1"}
+{"level":"info","ts":1764749563.1255713,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749563.1256127,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749563.1256628,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749563.1256807,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749563.1261156,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749563.12615,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749563.1263397,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749563.1263976,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001046791,"client_ip":"::1"}
+{"level":"info","ts":1764749566.4989736,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits/2","status":204,"duration":0.000202662,"client_ip":"::1"}
+{"level":"info","ts":1764749566.5017116,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits/2"}
+{"level":"info","ts":1764749566.501744,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749566.501789,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749566.5018082,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749566.5023923,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749566.5024369,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749566.5092351,"caller":"handlers/habitHandler.go:378","msg":"habit_updated","habit_id":"2"}
+{"level":"info","ts":1764749566.509355,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"PUT","path":"/api/habits/:id","status":200,"duration":0.007733032,"client_ip":"::1"}
+{"level":"info","ts":1764749566.5184119,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749566.518451,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749566.5185118,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749566.518532,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749566.518885,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749566.5189147,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749566.5190651,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749566.5191212,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000875549,"client_ip":"::1"}
+{"level":"info","ts":1764749570.3481884,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits/log"}
+{"level":"info","ts":1764749570.3482382,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749570.3482947,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749570.3483272,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749570.3487737,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749570.3487985,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749570.379533,"caller":"handlers/habitHandler.go:259","msg":"habit_logged","habit_id":1,"is_completed":true}
+{"level":"info","ts":1764749570.3796523,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits/log","status":200,"duration":0.031642196,"client_ip":"::1"}
+{"level":"info","ts":1764749570.3837206,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749570.383766,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749570.3838174,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749570.3838525,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749570.384268,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749570.3842986,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749570.3844361,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749570.3844726,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.0009294,"client_ip":"::1"}
+{"level":"info","ts":1764749572.180582,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits/log"}
+{"level":"info","ts":1764749572.1806417,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749572.180699,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749572.180719,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749572.1811798,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749572.1812215,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749572.1868606,"caller":"handlers/habitHandler.go:259","msg":"habit_logged","habit_id":2,"is_completed":true}
+{"level":"info","ts":1764749572.186919,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits/log","status":200,"duration":0.006573038,"client_ip":"::1"}
+{"level":"info","ts":1764749572.191916,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749572.1920245,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749572.1921296,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749572.1921623,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749572.1932595,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749572.1933808,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749572.1939049,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749572.1939466,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.002366847,"client_ip":"::1"}
+{"level":"info","ts":1764749597.6547484,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749597.6547995,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749597.6548522,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749597.6548731,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749597.6553414,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749597.655368,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749597.6659493,"caller":"handlers/habitHandler.go:104","msg":"habit_created","habit_id":4,"user_id":1,"title":"Медитация"}
+{"level":"info","ts":1764749597.6660492,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":200,"duration":0.011472945,"client_ip":"::1"}
+{"level":"info","ts":1764749597.6708908,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749597.6709323,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749597.6709788,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749597.671,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749597.6713312,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749597.6713662,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749597.6715505,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749597.671607,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000889445,"client_ip":"::1"}
+{"level":"info","ts":1764749601.3518229,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749601.3518634,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749601.3519104,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764835957,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749601.351947,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749601.3524034,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749601.3524318,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749601.3525822,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749601.3526163,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000986667,"client_ip":"::1"}
+{"level":"info","ts":1764749623.0670485,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764749623.0672257,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.135986332,"client_ip":"::1"}
+{"level":"info","ts":1764749623.1001422,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749623.1002352,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749623.1003158,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764836023,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749623.1003437,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749623.100703,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749623.100739,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749623.100895,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749623.1009374,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001011875,"client_ip":"::1"}
+{"level":"info","ts":1764749646.4190483,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764749646.419084,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764749646.4191353,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764836023,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764749646.419153,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764749646.4194279,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764749646.4194436,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764749646.4195457,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764749646.4195788,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000696922,"client_ip":"::1"}
+{"level":"info","ts":1764749724.6752036,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764749724.6755033,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764749737.4788787,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764749737.6032062,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764749737.6036606,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764749740.9095976,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000584891,"client_ip":"::1"}
+{"level":"info","ts":1764749809.1182067,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.000310294,"client_ip":"::1"}
+{"level":"info","ts":1764749842.016955,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764749842.0173535,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
