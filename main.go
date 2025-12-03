@@ -115,7 +115,7 @@ func main() {
 	// Публичные endpoints
 	public := r.Group("/api")
 	{
-		public.POST("/register", routes.Register)
+		public.POST("/register", handlers.RegisterHandler)
 		public.POST("/login", routes.Login)
 		public.GET("/cities", getCitiesHandler)
 	}

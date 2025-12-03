@@ -51,10 +51,10 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	// Валидация password
-	if len(password) < 6 {
+	if len(password) < 4 {
 		utils.Logger.Warn("register_password_too_short")
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Пароль должен быть не менее 6 символов",
+			"error": "Пароль должен быть не менее 4 символов",
 		})
 		return
 	}

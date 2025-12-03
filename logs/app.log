@@ -420,3 +420,278 @@
 {"level":"info","ts":1764749809.1182067,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.000310294,"client_ip":"::1"}
 {"level":"info","ts":1764749842.016955,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
 {"level":"info","ts":1764749842.0173535,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764752623.223664,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764752623.509568,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764752623.5108235,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764752644.2423685,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764752644.242528,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.159777372,"client_ip":"::1"}
+{"level":"info","ts":1764752644.2851992,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000912899,"client_ip":"::1"}
+{"level":"info","ts":1764752646.4771516,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764752646.4772518,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764752646.4773633,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764839044,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764752646.477408,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764752646.4791343,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764752646.479251,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764752646.479606,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764752646.479683,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764752646.4797168,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764752646.4797337,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764752646.4797683,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":1}
+{"level":"info","ts":1764752646.4797795,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764752646.4811172,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":4}
+{"level":"info","ts":1764752646.4815223,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:1:/api/habits?","ttl":120}
+{"level":"info","ts":1764752646.4815884,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.004875917,"client_ip":"::1"}
+{"level":"info","ts":1764752694.021152,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/health","status":200,"duration":0.001072958,"client_ip":"::1"}
+{"level":"info","ts":1764752694.1895897,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/favicon.ico","status":404,"duration":0.000333802,"client_ip":"::1"}
+{"level":"info","ts":1764752696.6909308,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/metrics","status":200,"duration":0.006913821,"client_ip":"::1"}
+{"level":"info","ts":1764753085.1345727,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764753085.1355772,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764753100.5454242,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764753100.7744253,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764753100.7751994,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764753111.3490932,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000577898,"client_ip":"::1"}
+{"level":"info","ts":1764753123.8191829,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/register","status":404,"duration":0.000506834,"client_ip":"::1"}
+{"level":"info","ts":1764753185.6496568,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000591072,"client_ip":"::1"}
+{"level":"warn","ts":1764753187.6594222,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753187.6595063,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000448053,"client_ip":"::1"}
+{"level":"info","ts":1764753190.2439284,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000328568,"client_ip":"::1"}
+{"level":"warn","ts":1764753198.4052026,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753198.4053159,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000458402,"client_ip":"::1"}
+{"level":"info","ts":1764753305.4464169,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.00085543,"client_ip":"::1"}
+{"level":"warn","ts":1764753307.010423,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753307.0106127,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000745873,"client_ip":"::1"}
+{"level":"info","ts":1764753310.3547583,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000537863,"client_ip":"::1"}
+{"level":"warn","ts":1764753322.774854,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753322.774952,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.0003665,"client_ip":"::1"}
+{"level":"info","ts":1764753738.9926045,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764753738.9929705,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764753742.6527812,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764753742.902883,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764753742.9035246,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"warn","ts":1764753747.8846302,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753747.8848422,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000938227,"client_ip":"::1"}
+{"level":"info","ts":1764753750.2809944,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000823742,"client_ip":"::1"}
+{"level":"warn","ts":1764753760.7866118,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764753760.7867389,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000440189,"client_ip":"::1"}
+{"level":"info","ts":1764758116.7501504,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764758116.750463,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764758757.368053,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764758757.6442287,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764758757.6452107,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"warn","ts":1764758761.7303066,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764758761.73047,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000874798,"client_ip":"::1"}
+{"level":"warn","ts":1764758782.9483862,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764758782.94852,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000498358,"client_ip":"::1"}
+{"level":"warn","ts":1764758846.7324352,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764758846.7325284,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000536961,"client_ip":"::1"}
+{"level":"info","ts":1764758995.2683034,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/login","status":204,"duration":0.000736368,"client_ip":"::1"}
+{"level":"info","ts":1764758995.4321597,"caller":"routes/auth_routes.go:134","msg":"user_logged_in","user_id":1}
+{"level":"info","ts":1764758995.4322906,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":0.159687864,"client_ip":"::1"}
+{"level":"info","ts":1764758995.4808648,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/cities","status":204,"duration":0.000354348,"client_ip":"::1"}
+{"level":"info","ts":1764758995.4844975,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.001153695,"client_ip":"::1"}
+{"level":"info","ts":1764758997.4534605,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits","status":204,"duration":0.000322508,"client_ip":"::1"}
+{"level":"info","ts":1764758997.4605107,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764758997.4607422,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"©"}
+{"level":"info","ts":1764758997.4612026,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764845395,"role":"user","user_id":1,"username":"Bekezhan"}}
+{"level":"info","ts":1764758997.4612536,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":1}
+{"level":"info","ts":1764758997.4625583,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764758997.4627428,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":1}
+{"level":"info","ts":1764758997.4631224,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:1:/api/habits?"}
+{"level":"info","ts":1764758997.463145,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764758997.4631598,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764758997.4631705,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":1,"username":"Bekezhan","role":"user"}
+{"level":"info","ts":1764758997.4631886,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":1}
+{"level":"info","ts":1764758997.463199,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764758997.4639654,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":4}
+{"level":"info","ts":1764758997.4643912,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:1:/api/habits?","ttl":120}
+{"level":"info","ts":1764758997.4645371,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.004713624,"client_ip":"::1"}
+{"level":"info","ts":1764759009.84624,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000608146,"client_ip":"::1"}
+{"level":"warn","ts":1764759035.7054589,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"json: cannot unmarshal string into Go struct field .city_id of type uint"}
+{"level":"info","ts":1764759035.7057562,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.001035001,"client_ip":"::1"}
+{"level":"info","ts":1764759381.4403594,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000475506,"client_ip":"::1"}
+{"level":"warn","ts":1764759384.2157352,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764759384.2158725,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.001693167,"client_ip":"::1"}
+{"level":"info","ts":1764759386.2964373,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000476296,"client_ip":"::1"}
+{"level":"warn","ts":1764759404.962875,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764759404.9630873,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000543453,"client_ip":"::1"}
+{"level":"warn","ts":1764759418.572885,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764759418.573049,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000811307,"client_ip":"::1"}
+{"level":"warn","ts":1764759468.9411697,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764759468.9412887,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000630397,"client_ip":"::1"}
+{"level":"warn","ts":1764759505.9408603,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764759505.9409873,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000547521,"client_ip":"::1"}
+{"level":"info","ts":1764760044.443225,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.00138287,"client_ip":"::1"}
+{"level":"warn","ts":1764760048.6859562,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764760048.686108,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000623106,"client_ip":"::1"}
+{"level":"info","ts":1764760050.9625568,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000431585,"client_ip":"::1"}
+{"level":"warn","ts":1764760059.628224,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764760059.6283581,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000653543,"client_ip":"::1"}
+{"level":"info","ts":1764760070.821127,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/register","status":404,"duration":0.000332677,"client_ip":"::1"}
+{"level":"info","ts":1764760070.9339836,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/favicon.ico","status":404,"duration":0.000370257,"client_ip":"::1"}
+{"level":"info","ts":1764760099.7450187,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/.well-known/appspecific/com.chrome.devtools.json","status":404,"duration":0.000681303,"client_ip":"::1"}
+{"level":"warn","ts":1764760202.9407427,"caller":"routes/auth_routes.go:35","msg":"invalid_register_request","error":"invalid character '-' in numeric literal"}
+{"level":"info","ts":1764760202.9409044,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":400,"duration":0.000817471,"client_ip":"::1"}
+{"level":"info","ts":1764767380.6344504,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764767380.823711,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764767380.8244188,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764767412.5067127,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764767412.5068429,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764767414.2916682,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764767414.3931837,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764767414.3936472,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764767454.6116595,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.001223002,"client_ip":"::1"}
+{"level":"info","ts":1764767471.2987463,"caller":"handlers/registerHandler.go:24","msg":"register_attempt","username":"Zhask","city_id_str":"3","has_password":true}
+{"level":"info","ts":1764767472.4101017,"caller":"handlers/registerHandler.go:125","msg":"register_saving_avatar","filename":"Zhask_3.jpeg","path":"uploads/Zhask_3.jpeg"}
+{"level":"info","ts":1764767472.4103546,"caller":"handlers/registerHandler.go:140","msg":"register_avatar_saved","path":"/loads/Zhask_3.jpeg"}
+{"level":"info","ts":1764767472.417915,"caller":"handlers/registerHandler.go:177","msg":"register_success","user_id":15,"username":"Zhask"}
+{"level":"info","ts":1764767472.4180853,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/register","status":201,"duration":1.1199021120000001,"client_ip":"::1"}
+{"level":"info","ts":1764767472.4292243,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000161033,"client_ip":"::1"}
+{"level":"info","ts":1764767472.4419734,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/cities","status":204,"duration":0.000176092,"client_ip":"::1"}
+{"level":"info","ts":1764767472.4443574,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000200598,"client_ip":"::1"}
+{"level":"info","ts":1764767477.5587125,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000199325,"client_ip":"::1"}
+{"level":"info","ts":1764767477.5696218,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000331083,"client_ip":"::1"}
+{"level":"info","ts":1764767488.4538116,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/habits","status":204,"duration":0.000208823,"client_ip":"::1"}
+{"level":"info","ts":1764767488.4575737,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767488.4576197,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":""}
+{"level":"warn","ts":1764767488.4576724,"caller":"handlers/authHandler.go:38","msg":"token_parse_error","error":"token signature is invalid: signature is invalid"}
+{"level":"info","ts":1764767488.4577172,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":401,"duration":0.000336493,"client_ip":"::1"}
+{"level":"info","ts":1764767497.739926,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/login","status":204,"duration":0.000178626,"client_ip":"::1"}
+{"level":"info","ts":1764767498.818014,"caller":"routes/auth_routes.go:69","msg":"user_logged_in","user_id":15}
+{"level":"info","ts":1764767498.8180897,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/login","status":200,"duration":1.075916586,"client_ip":"::1"}
+{"level":"info","ts":1764767498.828893,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000222889,"client_ip":"::1"}
+{"level":"info","ts":1764767498.8366048,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000245452,"client_ip":"::1"}
+{"level":"info","ts":1764767501.126079,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767501.1261241,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767501.126187,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767501.126239,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767501.127127,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767501.1271737,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767501.1273255,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767501.127347,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764767501.1273603,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764767501.1273694,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767501.1273925,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":15}
+{"level":"info","ts":1764767501.127402,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764767501.1277552,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":0}
+{"level":"info","ts":1764767501.1280107,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:15:/api/habits?","ttl":120}
+{"level":"info","ts":1764767501.1280591,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.002184291,"client_ip":"::1"}
+{"level":"info","ts":1764767503.1116214,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000152327,"client_ip":"::1"}
+{"level":"info","ts":1764767503.1124685,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.00116339,"client_ip":"::1"}
+{"level":"info","ts":1764767507.8120828,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/blob:http://localhost:3000/b4882eae-b04b-4179-8601-83754a0e6cfd","status":404,"duration":0.000231315,"client_ip":"::1"}
+{"level":"info","ts":1764767509.5139358,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/update-profile","status":204,"duration":0.000215997,"client_ip":"::1"}
+{"level":"info","ts":1764767509.5173397,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/update-profile","status":404,"duration":0.000172415,"client_ip":"::1"}
+{"level":"info","ts":1764767559.6397371,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000223441,"client_ip":"::1"}
+{"level":"info","ts":1764767559.6412625,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767559.6412933,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767559.6413357,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767559.641353,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767559.6417632,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767559.6417997,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767559.6419544,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767559.6419857,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000838037,"client_ip":"::1"}
+{"level":"info","ts":1764767586.844119,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764767586.8444748,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
+{"level":"info","ts":1764767692.0564191,"caller":"HabitTracker/main.go:35","msg":"starting_application","version":"2.0.0"}
+{"level":"info","ts":1764767692.1652615,"caller":"cache/redis.go:46","msg":"redis_connected","addr":"localhost:6379"}
+{"level":"info","ts":1764767692.1657116,"caller":"HabitTracker/main.go:353","msg":"starting_http_server","port":"8080","environment":"release"}
+{"level":"info","ts":1764767698.0907583,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000233969,"client_ip":"::1"}
+{"level":"info","ts":1764767698.091018,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767698.091042,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767698.0911,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767698.0911226,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767698.0918477,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767698.091869,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767698.0919654,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767698.091976,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764767698.0919883,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764767698.091994,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767698.0920033,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":15}
+{"level":"info","ts":1764767698.0920095,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764767698.0922184,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":0}
+{"level":"info","ts":1764767698.09235,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:15:/api/habits?","ttl":120}
+{"level":"info","ts":1764767698.0923722,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001541254,"client_ip":"::1"}
+{"level":"info","ts":1764767804.4982998,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000229633,"client_ip":"::1"}
+{"level":"info","ts":1764767804.4991372,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767804.499163,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767804.4992054,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767804.4992218,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767804.4996011,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767804.4996207,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767804.4997153,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767804.4997423,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.00069598,"client_ip":"::1"}
+{"level":"info","ts":1764767808.1795275,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000243328,"client_ip":"::1"}
+{"level":"info","ts":1764767808.185902,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000332296,"client_ip":"::1"}
+{"level":"info","ts":1764767845.7825053,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.00043017,"client_ip":"::1"}
+{"level":"info","ts":1764767863.7994232,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000508448,"client_ip":"::1"}
+{"level":"info","ts":1764767863.7996502,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000738802,"client_ip":"::1"}
+{"level":"info","ts":1764767868.8343964,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/loads/Zhask_3.jpeg","status":404,"duration":0.000238199,"client_ip":"::1"}
+{"level":"info","ts":1764767868.859623,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/cities","status":200,"duration":0.000410994,"client_ip":"::1"}
+{"level":"info","ts":1764767875.5842714,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"OPTIONS","path":"/api/profile","status":204,"duration":0.000197121,"client_ip":"::1"}
+{"level":"info","ts":1764767875.5875893,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/profile"}
+{"level":"info","ts":1764767875.5876439,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767875.5876982,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767875.5877247,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767875.5882602,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767875.588289,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767875.5922906,"caller":"routes/auth_routes.go:115","msg":"profile_updated","user_id":15}
+{"level":"info","ts":1764767875.5925558,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"PUT","path":"/api/profile","status":200,"duration":0.005219067,"client_ip":"::1"}
+{"level":"info","ts":1764767877.1370754,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/uploads/*filepath","status":200,"duration":0.006248375,"client_ip":"::1"}
+{"level":"info","ts":1764767878.3430326,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767878.3430839,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767878.343143,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767878.3431687,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767878.3436592,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767878.3436852,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767878.3437934,"caller":"middleware/cache_middleware.go:69","msg":"cache_miss","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767878.343807,"caller":"handlers/habitHandler.go:114","msg":"GetHabits started","path":"/api/habits"}
+{"level":"info","ts":1764767878.343819,"caller":"handlers/habitHandler.go:126","msg":"user_interface_type","type":"models.User"}
+{"level":"info","ts":1764767878.343837,"caller":"handlers/habitHandler.go:144","msg":"current_user_retrieved","id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767878.3438575,"caller":"handlers/habitHandler.go:154","msg":"user_query","user_id":15}
+{"level":"info","ts":1764767878.3438797,"caller":"handlers/habitHandler.go:169","msg":"executing_database_query"}
+{"level":"info","ts":1764767878.3441412,"caller":"handlers/habitHandler.go:180","msg":"habits_retrieved_successfully","count":0}
+{"level":"info","ts":1764767878.344329,"caller":"middleware/cache_middleware.go:93","msg":"cache_set_success","key":"cache:15:/api/habits?","ttl":120}
+{"level":"info","ts":1764767878.3443685,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.00153514,"client_ip":"::1"}
+{"level":"info","ts":1764767879.8891938,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/uploads/*filepath","status":304,"duration":0.000251433,"client_ip":"::1"}
+{"level":"info","ts":1764767879.9062777,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767879.906326,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767879.9063897,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767879.9064164,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767879.9069479,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767879.906977,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767879.907149,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767879.9071977,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001107705,"client_ip":"::1"}
+{"level":"info","ts":1764767937.9515357,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767937.9515903,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767937.9516685,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767937.951712,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767937.9522772,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767937.9523053,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767937.9599261,"caller":"handlers/habitHandler.go:104","msg":"habit_created","habit_id":5,"user_id":15,"title":"Coding"}
+{"level":"info","ts":1764767937.960187,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"POST","path":"/api/habits","status":200,"duration":0.008883229,"client_ip":"::1"}
+{"level":"info","ts":1764767937.9723015,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767937.97235,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767937.9724076,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767937.9724298,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767937.9727466,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767937.9727871,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767937.9729252,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767937.9729583,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.000877023,"client_ip":"::1"}
+{"level":"info","ts":1764767940.3352373,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/uploads/*filepath","status":304,"duration":0.00030282,"client_ip":"::1"}
+{"level":"info","ts":1764767940.3464038,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767940.3464615,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767940.3465111,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767940.3465345,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767940.3469963,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767940.3470173,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767940.3471868,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767940.3472226,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001006507,"client_ip":"::1"}
+{"level":"info","ts":1764767944.5315838,"caller":"handlers/authHandler.go:19","msg":"AuthMiddleware started","path":"/api/habits"}
+{"level":"info","ts":1764767944.5316265,"caller":"handlers/authHandler.go:30","msg":"token_extracted","token_length":"§"}
+{"level":"info","ts":1764767944.5316865,"caller":"handlers/authHandler.go:51","msg":"token_valid","claims":{"exp":1764853898,"role":"user","user_id":15,"username":"Zhask"}}
+{"level":"info","ts":1764767944.531708,"caller":"handlers/authHandler.go:63","msg":"user_id_extracted","user_id":15}
+{"level":"info","ts":1764767944.5322814,"caller":"handlers/authHandler.go:76","msg":"user_loaded_from_db","user_id":15,"username":"Zhask","role":"user"}
+{"level":"info","ts":1764767944.5323105,"caller":"handlers/authHandler.go:85","msg":"user_set_in_context","user_id":15}
+{"level":"info","ts":1764767944.5324569,"caller":"middleware/cache_middleware.go:53","msg":"cache_hit","key":"cache:15:/api/habits?"}
+{"level":"info","ts":1764767944.5324907,"caller":"middleware/request_logger.go:25","msg":"http_request","method":"GET","path":"/api/habits","status":200,"duration":0.001118658,"client_ip":"::1"}
+{"level":"info","ts":1764768161.0426085,"caller":"HabitTracker/main.go:388","msg":"shutting_down_server"}
+{"level":"info","ts":1764768161.042944,"caller":"HabitTracker/main.go:398","msg":"server_stopped"}
