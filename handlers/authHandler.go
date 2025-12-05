@@ -50,7 +50,6 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		utils.Logger.Info("token_valid", zap.Any("claims", claims))
 
-		// Получаем user_id из claims
 		userIDFloat, ok := claims["user_id"].(float64)
 		if !ok {
 			utils.Logger.Error("user_id_not_found_in_claims", zap.Any("claims", claims))
@@ -62,7 +61,6 @@ func AuthMiddleware() gin.HandlerFunc {
 		userID := uint(userIDFloat)
 		utils.Logger.Info("user_id_extracted", zap.Uint("user_id", userID))
 
-		// Загружаем пользователя из БД
 		var user models.User
 		if err := db.DB.First(&user, userID).Error; err != nil {
 			utils.Logger.Warn("user_not_found_in_db",
@@ -78,8 +76,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			zap.String("username", user.Username),
 			zap.String("role", user.Role))
 
-		// 🔥 КРИТИЧЕСКИ ВАЖНО: Сохраняем именно models.User, а не указатель
-		c.Set("user", user) // НЕ &user !
+		c.Set("user", user)
 		c.Set("role", user.Role)
 
 		utils.Logger.Info("user_set_in_context", zap.Uint("user_id", user.ID))

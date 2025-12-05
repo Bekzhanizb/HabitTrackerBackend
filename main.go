@@ -25,19 +25,15 @@ import (
 )
 
 func main() {
-	// ============================================
 	// ИНИЦИАЛИЗАЦИЯ
-	// ============================================
 	utils.InitLogger()
 	defer utils.Logger.Sync()
 	utils.InitMetrics()
 
 	utils.Logger.Info("starting_application", zap.String("version", "2.0.0"))
 
-	// Подключаемся к БД
 	db.Connect()
 
-	// Миграции
 	if err := db.DB.AutoMigrate(
 		&models.City{},
 		&models.User{},
@@ -49,9 +45,7 @@ func main() {
 		utils.Logger.Fatal("migration_failed", zap.Error(err))
 	}
 
-	// ============================================
-	// REDIS ИНИЦИАЛИЗАЦИЯ
-	// ============================================
+	// REDIS
 	if err := cache.InitRedis(utils.Logger); err != nil {
 		utils.Logger.Fatal("redis_initialization_failed", zap.Error(err))
 	}
@@ -60,9 +54,7 @@ func main() {
 	// Seed данные
 	seedCities()
 
-	// ============================================
 	// GIN SETUP
-	// ============================================
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
@@ -102,17 +94,11 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// Статика
 	r.Static("/uploads", "./uploads")
-
-	// ============================================
-	// ENDPOINTS
-	// ============================================
 
 	// Health check
 	r.GET("/health", healthCheckHandler)
 
-	// Публичные endpoints
 	public := r.Group("/api")
 	{
 		public.POST("/register", handlers.RegisterHandler)
@@ -120,55 +106,44 @@ func main() {
 		public.GET("/cities", getCitiesHandler)
 	}
 
-	// Защищённые endpoints
 	api := r.Group("/api")
 	api.Use(handlers.AuthMiddleware())
 	{
-		// Profile
 		api.GET("/profile", routes.Profile)
 		api.PUT("/profile", routes.UpdateProfile)
 
-		// Habits с кэшированием
 		habits := api.Group("/habits")
 		{
-			// GET кэшируется на 2 минуты
 			habits.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetHabits)
-			//habits.GET("", handlers.GetHabits)
 
 			habits.POST("", handlers.CreateHabit)
 			habits.POST("/log", handlers.LogHabit)
 			habits.PUT("/:id", handlers.UpdateHabit)
 			habits.DELETE("/:id", handlers.DeleteHabit)
 
-			// 🚀 НОВЫЙ ENDPOINT - CONCURRENT STATISTICS
 			habits.GET("/stats", getHabitStatsHandler)
 
-			// Admin endpoints
 			habits.GET("/logs",
 				handlers.RoleMiddleware(models.RoleAdmin),
 				middleware.CacheMiddleware(5*time.Minute),
 				handlers.GetHabitLogs,
 			)
 
-			// Bulk operations
 			habits.POST("/bulk/activate",
 				handlers.RoleMiddleware(models.RoleAdmin),
 				bulkActivateHabitsHandler,
 			)
 		}
 
-		// Diary с кэшированием
 		diary := api.Group("/diary")
 		{
 			diary.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetDiary)
-			//diary.GET("", handlers.GetDiary)
 
 			diary.POST("", handlers.CreateDiary)
 			diary.PUT("/:id", handlers.UpdateDiary)
 			diary.DELETE("/:id", handlers.DeleteDiary)
 		}
 
-		// Cache management (admin only)
 		cacheAPI := api.Group("/cache")
 		cacheAPI.Use(handlers.RoleMiddleware(models.RoleAdmin))
 		{
@@ -177,12 +152,8 @@ func main() {
 		}
 	}
 
-	// Prometheus metrics
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
-	// ============================================
-	// ЗАПУСК СЕРВЕРА
-	// ============================================
 	startServerWithGracefulShutdown(r)
 }
 
@@ -208,14 +179,12 @@ func seedCities() {
 }
 
 func healthCheckHandler(c *gin.Context) {
-	// Check database
 	sqlDB, err := db.DB.DB()
 	dbStatus := "connected"
 	if err != nil || sqlDB.Ping() != nil {
 		dbStatus = "disconnected"
 	}
 
-	// Check Redis
 	redisStatus := "connected"
 	if err := cache.Client.Ping(context.Background()).Err(); err != nil {
 		redisStatus = "disconnected"
@@ -252,7 +221,6 @@ func getCitiesHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, cities)
 }
 
-// 🚀 HANDLER ДЛЯ КОНКУРЕНТНОЙ ОБРАБОТКИ СТАТИСТИКИ
 func getHabitStatsHandler(c *gin.Context) {
 	userInterface, exists := c.Get("user")
 	if !exists {
@@ -261,7 +229,6 @@ func getHabitStatsHandler(c *gin.Context) {
 	}
 	currentUser := userInterface.(models.User)
 
-	// Используем concurrent функцию
 	stats, err := services.CalculateUserHabitStatsConcurrently(currentUser.ID, utils.Logger)
 	if err != nil {
 		utils.Logger.Error("calculate_stats_failed", zap.Error(err))
@@ -365,9 +332,7 @@ func startServerWithGracefulShutdown(router *gin.Engine) {
 	fmt.Printf("   💾 DB:      Connected\n")
 	fmt.Println("   ================================\n")
 
-	// Запускаем сервер в горутине
 	go func() {
-		// В production используем HTTPS
 		if gin.Mode() == gin.ReleaseMode && fileExists("./certs/server.crt") {
 			utils.Logger.Info("starting_https_server")
 			if err := srv.ListenAndServeTLS("./certs/server.crt", "./certs/server.key"); err != nil && err != http.ErrServerClosed {

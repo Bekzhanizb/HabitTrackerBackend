@@ -24,9 +24,6 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-// 🔥 УДАЛИТЕ ИЛИ ЗАКОММЕНТИРУЙТЕ эту функцию, используйте handlers.RegisterHandler
-// func Register(c *gin.Context) { ... }
-
 func Login(c *gin.Context) {
 	var input struct {
 		Username string `json:"username" binding:"required"`

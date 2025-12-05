@@ -7,11 +7,10 @@ import (
 	"github.com/gorilla/csrf"
 )
 
-// CSRFProtection добавляет CSRF защиту для форм
 func CSRFProtection(authKey []byte) gin.HandlerFunc {
 	csrfMiddleware := csrf.Protect(
 		authKey,
-		csrf.Secure(false), // Установите true для HTTPS
+		csrf.Secure(true),
 		csrf.HttpOnly(true),
 		csrf.Path("/"),
 		csrf.ErrorHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

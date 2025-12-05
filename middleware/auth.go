@@ -150,7 +150,6 @@ func UpdateProfile(c *gin.Context) {
 	username := c.PostForm("username")
 	cityID := c.PostForm("city_id")
 
-	// Upload avatar picture if provided
 	file, err := c.FormFile("picture")
 	if err == nil {
 		path := fmt.Sprintf("./uploads/%d_%s", currentUser.ID, file.Filename)

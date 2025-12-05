@@ -16,21 +16,17 @@ import (
 // CacheMiddleware caches GET requests
 func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Only cache GET requests
 		if c.Request.Method != http.MethodGet {
 			c.Next()
 			return
 		}
 
-		// 🔥 FIX: Безопасное получение user ID из контекста
 		userID := uint(0)
 		if userInterface, exists := c.Get("user"); exists {
-			// Проверяем тип безопасно
 			if user, ok := userInterface.(models.User); ok {
 				userID = user.ID
 				utils.Logger.Debug("cache_user_found", zap.Uint("user_id", userID))
 			} else {
-				// Логируем предупреждение, но НЕ паникуем
 				utils.Logger.Warn("cache_invalid_user_type",
 					zap.String("expected", "models.User"),
 					zap.String("actual", fmt.Sprintf("%T", userInterface)),
@@ -40,19 +36,16 @@ func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 			utils.Logger.Debug("cache_no_user_in_context")
 		}
 
-		// Generate cache key from URL and user ID
 		cacheKey := fmt.Sprintf("cache:%d:%s?%s", userID, c.Request.URL.Path, c.Request.URL.RawQuery)
 
 		utils.Logger.Debug("cache_check",
 			zap.String("key", cacheKey),
 			zap.Uint("user_id", userID))
 
-		// Try to get from cache
 		var cachedResponse CachedResponse
 		if err := cache.Get(cacheKey, &cachedResponse); err == nil {
 			utils.Logger.Info("cache_hit", zap.String("key", cacheKey))
 
-			// Set cached headers
 			for key, values := range cachedResponse.Headers {
 				for _, value := range values {
 					c.Header(key, value)
@@ -65,17 +58,14 @@ func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 			return
 		}
 
-		// Cache miss - continue with request
 		utils.Logger.Info("cache_miss", zap.String("key", cacheKey))
 		c.Header("X-Cache", "MISS")
 
-		// Capture response
 		blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = blw
 
 		c.Next()
 
-		// Cache successful responses only
 		if c.Writer.Status() == http.StatusOK {
 			cachedResp := CachedResponse{
 				Status:      c.Writer.Status(),
@@ -156,7 +146,6 @@ func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc 
 		clientIP := c.ClientIP()
 		key := fmt.Sprintf("rate_limit:%s", clientIP)
 
-		// Increment counter
 		count, err := cache.IncrementCounter(key, window)
 		if err != nil {
 			utils.Logger.Error("rate_limit_error", zap.Error(err))
@@ -164,11 +153,9 @@ func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc 
 			return
 		}
 
-		// Set headers
 		c.Header("X-RateLimit-Limit", fmt.Sprintf("%d", maxRequests))
 		c.Header("X-RateLimit-Remaining", fmt.Sprintf("%d", max(0, maxRequests-int(count))))
 
-		// Check if limit exceeded
 		if count > int64(maxRequests) {
 			utils.Logger.Warn("rate_limit_exceeded",
 				zap.String("ip", clientIP),

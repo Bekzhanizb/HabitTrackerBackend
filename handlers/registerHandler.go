@@ -164,7 +164,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Генерируем JWT токен
 	token, err := utils.GenerateToken(user.ID, user.Username)
 	if err != nil {
 		utils.Logger.Error("register_token_generation_failed", zap.Error(err))

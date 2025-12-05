@@ -30,43 +30,9 @@ type UserHabitStats struct {
 	ProcessingTime time.Duration `json:"processing_time_ms"`
 }
 
-/*
-╔═══════════════════════════════════════════════════════════════════╗
-║  ОБОСНОВАНИЕ ИСПОЛЬЗОВАНИЯ CONCURRENCY (GOROUTINES + CHANNELS)    ║
-╚═══════════════════════════════════════════════════════════════════╝
-
-1. НЕЗАВИСИМЫЕ ВЫЧИСЛЕНИЯ:
-   - Статистика каждой привычки вычисляется НЕЗАВИСИМО
-   - Нет shared state между вычислениями
-   - Идеальный кандидат для параллелизма
-
-2. I/O ОПЕРАЦИИ:
-   - Каждая горутина делает отдельный DB query
-   - Database queries могут выполняться параллельно
-   - Пока одна горутина ждёт DB, другие работают
-
-3. ПРОИЗВОДИТЕЛЬНОСТЬ:
-   Последовательно: 10 привычек × 50ms = 500ms
-   Параллельно: max(50ms) + overhead ≈ 60ms
-   УСКОРЕНИЕ: ~8x быстрее!
-
-4. МАСШТАБИРУЕМОСТЬ:
-   - При росте числа пользователей критично важно
-   - У пользователя может быть 20-30 привычек
-   - Без concurrency: 30 × 50ms = 1.5 секунды (плохо!)
-   - С concurrency: ~70ms (отлично!)
-
-5. ИСПОЛЬЗОВАНИЕ CHANNELS:
-   - statsChan - для сбора результатов от горутин
-   - errChan - для обработки ошибок
-   - WaitGroup - для синхронизации завершения
-*/
-
-// CalculateUserHabitStatsConcurrently - MAIN CONCURRENT FUNCTION
 func CalculateUserHabitStatsConcurrently(userID uint, logger *zap.Logger) (*UserHabitStats, error) {
 	startTime := time.Now()
 
-	// Check cache first
 	cacheKey := fmt.Sprintf("user_stats:%d", userID)
 	var cachedStats UserHabitStats
 	if err := cache.Get(cacheKey, &cachedStats); err == nil {
@@ -74,7 +40,6 @@ func CalculateUserHabitStatsConcurrently(userID uint, logger *zap.Logger) (*User
 		return &cachedStats, nil
 	}
 
-	// Get all user habits
 	var habits []models.Habit
 	if err := db.DB.Where("user_id = ?", userID).Find(&habits).Error; err != nil {
 		return nil, err
@@ -84,11 +49,9 @@ func CalculateUserHabitStatsConcurrently(userID uint, logger *zap.Logger) (*User
 		return &UserHabitStats{UserID: userID}, nil
 	}
 
-	// 🔥 СОЗДАЁМ CHANNEL ДЛЯ РЕЗУЛЬТАТОВ
 	statsChan := make(chan HabitStats, len(habits))
 	var wg sync.WaitGroup
 
-	// 🚀 ЗАПУСКАЕМ ГОРУТИНУ ДЛЯ КАЖДОЙ ПРИВЫЧКИ
 	for _, habit := range habits {
 		wg.Add(1)
 		// Каждая горутина работает ПАРАЛЛЕЛЬНО!

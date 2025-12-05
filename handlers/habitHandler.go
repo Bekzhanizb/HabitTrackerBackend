@@ -113,7 +113,6 @@ func CreateHabit(c *gin.Context) {
 func GetHabits(c *gin.Context) {
 	utils.Logger.Info("GetHabits started", zap.String("path", c.Request.URL.Path))
 
-	// 🔥 FIX: Безопасное получение пользователя с детальным логированием
 	userInterface, exists := c.Get("user")
 	if !exists {
 		utils.Logger.Error("user_not_found_in_context",
@@ -125,7 +124,6 @@ func GetHabits(c *gin.Context) {
 
 	utils.Logger.Info("user_interface_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
 
-	// Безопасный type assertion
 	currentUser, ok := userInterface.(models.User)
 	if !ok {
 		utils.Logger.Error("invalid_user_type_assertion",

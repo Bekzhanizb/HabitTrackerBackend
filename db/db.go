@@ -14,7 +14,6 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	// Get database configuration from environment variables
 	host := getEnv("DB_HOST", "localhost")
 	port := getEnv("DB_PORT", "5432")
 	user := getEnv("DB_USER", "postgres")
@@ -27,7 +26,6 @@ func Connect() {
 		host, port, user, password, dbname, sslmode,
 	)
 
-	// Configure GORM logger
 	gormLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
 		logger.Config{
@@ -52,11 +50,9 @@ func Connect() {
 		})
 
 		if err == nil {
-			// Test connection
 			sqlDB, err := DB.DB()
 			if err == nil {
 				if err = sqlDB.Ping(); err == nil {
-					// Connection successful
 					sqlDB.SetMaxIdleConns(10)
 					sqlDB.SetMaxOpenConns(100)
 					sqlDB.SetConnMaxLifetime(time.Hour)
