@@ -25,7 +25,6 @@ import (
 )
 
 func main() {
-	// ИНИЦИАЛИЗАЦИЯ
 	utils.InitLogger()
 	defer utils.Logger.Sync()
 	utils.InitMetrics()
@@ -58,26 +57,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
-	// В main.go, после r := gin.New()
-	r.GET("/debug/context", handlers.AuthMiddleware(), func(c *gin.Context) {
-		userInterface, exists := c.Get("user")
-
-		c.JSON(200, gin.H{
-			"user_exists": exists,
-			"user_type":   fmt.Sprintf("%T", userInterface),
-			"user_value":  userInterface,
-		})
-	})
-
-	// Core middleware
-	r.Use(middleware.Recovery())
-	r.Use(middleware.RequestLogger())
-	r.Use(middleware.SecurityHeaders())
-
-	// Rate limiting - 100 запросов в минуту
-	r.Use(middleware.RateLimitMiddleware(100, time.Minute))
-
-	// CORS
+	// CORS - настройка должна быть ДО CSRF
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
@@ -88,16 +68,46 @@ func main() {
 			"Content-Type",
 			"Accept",
 			"Authorization",
+			"X-CSRF-Token",
+			"X-Requested-With",
 		},
-		ExposeHeaders:    []string{"Content-Length"},
+		ExposeHeaders: []string{
+			"Content-Length",
+			"X-CSRF-Token",
+		},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+
+	// Core middleware
+	r.Use(middleware.Recovery())
+	r.Use(middleware.RequestLogger())
+	r.Use(middleware.SecurityHeaders())
+
+	// Rate limiting - 100 запросов в минуту
+	r.Use(middleware.RateLimitMiddleware(100, time.Minute))
+
+	// CSRF middleware - исключаем публичные эндпоинты
+	csrfMiddleware := middleware.CSRFMiddleware(
+		[]byte("32-byte-long-supersecret-key-1234567890"),
+		"/api/csrf",
+		"/health",
+		"/metrics",
+		"/api/login",    // Добавляем логин в исключения
+		"/api/register", // Добавляем регистрацию в исключения
+		"/api/cities",   // Добавляем публичные данные в исключения
+	)
+
+	// Применяем CSRF ко всем роутам
+	r.Use(csrfMiddleware)
 
 	r.Static("/uploads", "./uploads")
 
 	// Health check
 	r.GET("/health", healthCheckHandler)
+
+	// CSRF token endpoint - должен быть ДО остальных middleware
+	r.GET("/api/csrf", middleware.GetCSRFToken())
 
 	public := r.Group("/api")
 	{
@@ -115,20 +125,16 @@ func main() {
 		habits := api.Group("/habits")
 		{
 			habits.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetHabits)
-
 			habits.POST("", handlers.CreateHabit)
 			habits.POST("/log", handlers.LogHabit)
 			habits.PUT("/:id", handlers.UpdateHabit)
 			habits.DELETE("/:id", handlers.DeleteHabit)
-
 			habits.GET("/stats", getHabitStatsHandler)
-
 			habits.GET("/logs",
 				handlers.RoleMiddleware(models.RoleAdmin),
 				middleware.CacheMiddleware(5*time.Minute),
 				handlers.GetHabitLogs,
 			)
-
 			habits.POST("/bulk/activate",
 				handlers.RoleMiddleware(models.RoleAdmin),
 				bulkActivateHabitsHandler,
@@ -138,7 +144,6 @@ func main() {
 		diary := api.Group("/diary")
 		{
 			diary.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetDiary)
-
 			diary.POST("", handlers.CreateDiary)
 			diary.PUT("/:id", handlers.UpdateDiary)
 			diary.DELETE("/:id", handlers.DeleteDiary)
@@ -151,6 +156,15 @@ func main() {
 			cacheAPI.DELETE("/user/:id", clearUserCacheHandler)
 		}
 	}
+
+	r.GET("/debug/context", handlers.AuthMiddleware(), func(c *gin.Context) {
+		userInterface, exists := c.Get("user")
+		c.JSON(200, gin.H{
+			"user_exists": exists,
+			"user_type":   fmt.Sprintf("%T", userInterface),
+			"user_value":  userInterface,
+		})
+	})
 
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 

@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/Bekzhanizb/HabitTrackerBackend/db"
-	"github.com/Bekzhanizb/HabitTrackerBackend/middleware"
 	"github.com/Bekzhanizb/HabitTrackerBackend/models"
 	"github.com/Bekzhanizb/HabitTrackerBackend/utils"
 	"github.com/gin-gonic/gin"
@@ -15,6 +14,9 @@ import (
 )
 
 func AuthMiddleware() gin.HandlerFunc {
+
+	var JwtKey = []byte("supersecretkey")
+
 	return func(c *gin.Context) {
 		utils.Logger.Info("AuthMiddleware started", zap.String("path", c.Request.URL.Path))
 
@@ -31,7 +33,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		claims := jwt.MapClaims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-			return middleware.JwtKey, nil
+			return JwtKey, nil
 		})
 
 		if err != nil {
@@ -76,7 +78,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			zap.String("username", user.Username),
 			zap.String("role", user.Role))
 
-		c.Set("user", user)
+		c.Set("user", user) // НЕ &user !
 		c.Set("role", user.Role)
 
 		utils.Logger.Info("user_set_in_context", zap.Uint("user_id", user.ID))

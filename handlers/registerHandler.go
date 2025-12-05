@@ -184,7 +184,7 @@ func RegisterHandler(c *gin.Context) {
 			"id":       user.ID,
 			"username": user.Username,
 			"city_id":  user.CityID,
-			"picture":  user.Picture, // Изменил с "avatar" на "picture" для консистентности
+			"picture":  user.Picture,
 			"role":     user.Role,
 		},
 		"token": token,
