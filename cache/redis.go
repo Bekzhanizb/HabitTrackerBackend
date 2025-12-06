@@ -16,7 +16,6 @@ var (
 	ctx    = context.Background()
 )
 
-// InitRedis initializes Redis connection
 func InitRedis(logger *zap.Logger) error {
 	redisHost := os.Getenv("REDIS_HOST")
 	if redisHost == "" {
@@ -47,7 +46,6 @@ func InitRedis(logger *zap.Logger) error {
 	return nil
 }
 
-// Set stores a value in Redis
 func Set(key string, value interface{}, expiration time.Duration) error {
 	data, err := json.Marshal(value)
 	if err != nil {
@@ -56,7 +54,6 @@ func Set(key string, value interface{}, expiration time.Duration) error {
 	return Client.Set(ctx, key, data, expiration).Err()
 }
 
-// Get retrieves a value from Redis
 func Get(key string, dest interface{}) error {
 	val, err := Client.Get(ctx, key).Result()
 	if err != nil {
@@ -65,12 +62,10 @@ func Get(key string, dest interface{}) error {
 	return json.Unmarshal([]byte(val), dest)
 }
 
-// Delete removes a key
 func Delete(key string) error {
 	return Client.Del(ctx, key).Err()
 }
 
-// DeletePattern deletes keys matching pattern
 func DeletePattern(pattern string) error {
 	iter := Client.Scan(ctx, 0, pattern, 0).Iterator()
 	for iter.Next(ctx) {
@@ -81,7 +76,6 @@ func DeletePattern(pattern string) error {
 	return iter.Err()
 }
 
-// IncrementCounter increments a counter
 func IncrementCounter(key string, expiration time.Duration) (int64, error) {
 	val, err := Client.Incr(ctx, key).Result()
 	if err != nil {
@@ -93,7 +87,6 @@ func IncrementCounter(key string, expiration time.Duration) (int64, error) {
 	return val, nil
 }
 
-// Close closes Redis connection
 func Close() error {
 	if Client != nil {
 		return Client.Close()

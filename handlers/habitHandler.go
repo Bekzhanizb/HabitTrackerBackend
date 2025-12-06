@@ -145,7 +145,7 @@ func GetHabits(c *gin.Context) {
 		zap.String("role", currentUser.Role))
 
 	var habits []models.Habit
-	query := db.DB.Preload("Logs")
+	query := db.DB.Preload("Logs").Preload("User")
 
 	if currentUser.Role != models.RoleAdmin {
 		query = query.Where("user_id = ?", currentUser.ID)
@@ -263,41 +263,85 @@ func LogHabit(c *gin.Context) {
 }
 
 func GetHabitLogs(c *gin.Context) {
+	start := time.Now()
+
+	utils.ReqCount.WithLabelValues("GET", "/api/habits/logs", "started").Inc()
+
 	userInterface, exists := c.Get("user")
 	if !exists {
+		utils.Logger.Warn("get_habit_logs_no_user")
 		utils.ErrorCount.WithLabelValues("GetHabitLogs", "auth").Inc()
+
+		utils.ReqDuration.WithLabelValues("GET", "/api/habits/logs").Observe(time.Since(start).Seconds())
+
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
 		return
 	}
 
 	currentUser, ok := userInterface.(models.User)
 	if !ok {
-		utils.Logger.Error("invalid_user_type", zap.String("type", fmt.Sprintf("%T", userInterface)))
+		utils.Logger.Error("invalid_user_type",
+			zap.String("type", fmt.Sprintf("%T", userInterface)))
 		utils.ErrorCount.WithLabelValues("GetHabitLogs", "auth").Inc()
+
+		utils.ReqDuration.WithLabelValues("GET", "/api/habits/logs").Observe(time.Since(start).Seconds())
+
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user context"})
 		return
 	}
 
+	utils.Logger.Info("get_habit_logs_request",
+		zap.Uint("user_id", currentUser.ID),
+		zap.String("role", currentUser.Role),
+	)
+
 	var logs []models.HabitLog
 	query := db.DB.Preload("Habit")
 
-	if currentUser.Role != models.RoleAdmin {
-		query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
-			Where("habits.user_id = ?", currentUser.ID)
-	} else {
+	queryType := "user"
+	if currentUser.Role == models.RoleAdmin {
+		queryType = "admin"
 		userID := c.Query("user_id")
 		if userID != "" {
+			queryType = "admin_filtered"
 			query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
 				Where("habits.user_id = ?", userID)
 		}
+	} else {
+		query = query.Joins("JOIN habits ON habits.id = habit_logs.habit_id").
+			Where("habits.user_id = ?", currentUser.ID)
 	}
 
+	dbStart := time.Now()
+
 	if err := query.Find(&logs).Error; err != nil {
-		utils.Logger.Error("db_get_logs_failed", zap.Error(err))
+		dbDuration := time.Since(dbStart).Seconds()
+
+		utils.Logger.Error("db_get_logs_failed",
+			zap.Error(err),
+			zap.Float64("db_duration", dbDuration),
+		)
+
 		utils.ErrorCount.WithLabelValues("GetHabitLogs", "database").Inc()
+
+		utils.ReqDuration.WithLabelValues("GET", "/api/habits/logs").Observe(time.Since(start).Seconds())
+
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Ошибка при получении логов"})
 		return
 	}
+
+	dbDuration := time.Since(dbStart).Seconds()
+	totalDuration := time.Since(start).Seconds()
+
+	utils.ReqDuration.WithLabelValues("GET", "/api/habits/logs").Observe(totalDuration)
+
+	utils.Logger.Info("get_habit_logs_success",
+		zap.Uint("user_id", currentUser.ID),
+		zap.String("query_type", queryType),
+		zap.Int("logs_count", len(logs)),
+		zap.Float64("db_duration_ms", dbDuration*1000),
+		zap.Float64("total_duration_ms", totalDuration*1000),
+	)
 
 	c.JSON(http.StatusOK, logs)
 }
@@ -429,4 +473,14 @@ func DeleteHabit(c *gin.Context) {
 
 	utils.Logger.Info("habit_deleted", zap.String("habit_id", id))
 	c.JSON(http.StatusOK, gin.H{"message": "Habit deleted"})
+}
+func GetUsersHandler(c *gin.Context) {
+	var users []models.User
+
+	if err := db.DB.Preload("City").Find(&users).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, users)
 }

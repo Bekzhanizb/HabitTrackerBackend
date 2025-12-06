@@ -44,20 +44,16 @@ func main() {
 		utils.Logger.Fatal("migration_failed", zap.Error(err))
 	}
 
-	// REDIS
 	if err := cache.InitRedis(utils.Logger); err != nil {
 		utils.Logger.Fatal("redis_initialization_failed", zap.Error(err))
 	}
 	defer cache.Close()
 
-	// Seed данные
 	seedCities()
 
-	// GIN SETUP
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
-	// CORS - настройка должна быть ДО CSRF
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
@@ -79,34 +75,28 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	// Core middleware
 	r.Use(middleware.Recovery())
 	r.Use(middleware.RequestLogger())
 	r.Use(middleware.SecurityHeaders())
 
-	// Rate limiting - 100 запросов в минуту
 	r.Use(middleware.RateLimitMiddleware(100, time.Minute))
 
-	// CSRF middleware - исключаем публичные эндпоинты
 	csrfMiddleware := middleware.CSRFMiddleware(
 		[]byte("32-byte-long-supersecret-key-1234567890"),
 		"/api/csrf",
 		"/health",
 		"/metrics",
-		"/api/login",    // Добавляем логин в исключения
-		"/api/register", // Добавляем регистрацию в исключения
-		"/api/cities",   // Добавляем публичные данные в исключения
+		"/api/login",
+		"/api/register",
+		"/api/cities",
 	)
 
-	// Применяем CSRF ко всем роутам
 	r.Use(csrfMiddleware)
 
 	r.Static("/uploads", "./uploads")
 
-	// Health check
 	r.GET("/health", healthCheckHandler)
 
-	// CSRF token endpoint - должен быть ДО остальных middleware
 	r.GET("/api/csrf", middleware.GetCSRFToken())
 
 	public := r.Group("/api")
@@ -157,6 +147,9 @@ func main() {
 		}
 	}
 
+	r.GET("/api/users", handlers.GetUsersHandler)
+
+	r.Use(middleware.RequestLogger())
 	r.GET("/debug/context", handlers.AuthMiddleware(), func(c *gin.Context) {
 		userInterface, exists := c.Get("user")
 		c.JSON(200, gin.H{

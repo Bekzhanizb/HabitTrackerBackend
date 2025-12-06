@@ -54,15 +54,13 @@ func CalculateUserHabitStatsConcurrently(userID uint, logger *zap.Logger) (*User
 
 	for _, habit := range habits {
 		wg.Add(1)
-		// Каждая горутина работает ПАРАЛЛЕЛЬНО!
 		go func(h models.Habit) {
 			defer wg.Done()
 			stats := calculateSingleHabitStats(h.ID, logger)
-			statsChan <- stats // Отправляем результат в channel
+			statsChan <- stats
 		}(habit)
 	}
 
-	// Закрываем channel когда все горутины завершатся
 	go func() {
 		wg.Wait()
 		close(statsChan)

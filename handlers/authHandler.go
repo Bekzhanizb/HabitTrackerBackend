@@ -78,7 +78,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			zap.String("username", user.Username),
 			zap.String("role", user.Role))
 
-		c.Set("user", user) // НЕ &user !
+		c.Set("user", user)
 		c.Set("role", user.Role)
 
 		utils.Logger.Info("user_set_in_context", zap.Uint("user_id", user.ID))

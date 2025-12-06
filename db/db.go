@@ -36,7 +36,6 @@ func Connect() {
 		},
 	)
 
-	// Retry connection logic for Docker container startup
 	maxRetries := 10
 	var err error
 
@@ -57,17 +56,17 @@ func Connect() {
 					sqlDB.SetMaxOpenConns(100)
 					sqlDB.SetConnMaxLifetime(time.Hour)
 
-					fmt.Printf("✅ Successfully connected to database at %s:%s\n", host, port)
+					fmt.Printf("Successfully connected to database at %s:%s\n", host, port)
 					return
 				}
 			}
 		}
 
-		fmt.Printf("⏳ Waiting for database connection... (attempt %d/%d)\n", i+1, maxRetries)
+		fmt.Printf("Waiting for database connection... (attempt %d/%d)\n", i+1, maxRetries)
 		time.Sleep(2 * time.Second)
 	}
 
-	log.Fatal("❌ Failed to connect to database after retries:", err)
+	log.Fatal("Failed to connect to database after retries:", err)
 }
 
 func getEnv(key, defaultValue string) string {

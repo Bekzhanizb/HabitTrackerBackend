@@ -50,7 +50,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Валидация password
 	if len(password) < 4 {
 		utils.Logger.Warn("register_password_too_short")
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -59,7 +58,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Парсинг city_id
 	cityID, err := strconv.Atoi(cityIDStr)
 	if err != nil {
 		utils.Logger.Warn("register_invalid_city_id",
@@ -73,7 +71,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Проверка существования города
 	var city models.City
 	if err := db.DB.First(&city, cityID).Error; err != nil {
 		utils.Logger.Warn("register_city_not_found", zap.Int("city_id", cityID))
@@ -83,7 +80,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Проверяем, существует ли пользователь
 	var existing models.User
 	if err := db.DB.Where("username = ?", username).First(&existing).Error; err == nil {
 		utils.Logger.Warn("register_user_exists", zap.String("username", username))
@@ -93,7 +89,6 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Хэшируем пароль
 	hashedPassword, err := utils.HashPassword(password)
 	if err != nil {
 		utils.Logger.Error("register_hash_failed", zap.Error(err))
@@ -103,12 +98,10 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	// Обработка аватара (опционально)
-	avatarPath := "/uploads/default.png" // Путь по умолчанию
+	avatarPath := "/uploads/default.png"
 	file, err := c.FormFile("avatar")
 
 	if err == nil {
-		// Создаем папку если её нет
 		if err := os.MkdirAll("./uploads", os.ModePerm); err != nil {
 			utils.Logger.Error("register_mkdir_failed", zap.Error(err))
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -117,7 +110,6 @@ func RegisterHandler(c *gin.Context) {
 			return
 		}
 
-		// Генерируем уникальное имя файла
 		ext := filepath.Ext(file.Filename)
 		filename := fmt.Sprintf("%s_%d%s", username, cityID, ext)
 		filePath := filepath.Join("./uploads", filename)
@@ -142,14 +134,13 @@ func RegisterHandler(c *gin.Context) {
 		utils.Logger.Info("register_no_avatar", zap.Error(err))
 	}
 
-	// Создаём пользователя
 	cityIDUint := uint(cityID)
 	user := models.User{
 		Username:     username,
 		PasswordHash: hashedPassword,
 		CityID:       &cityIDUint,
 		Picture:      avatarPath,
-		Role:         models.RoleUser, // Явно устанавливаем роль
+		Role:         models.RoleUser,
 	}
 
 	if err := db.DB.Create(&user).Error; err != nil {

@@ -13,7 +13,6 @@ import (
 	"go.uber.org/zap"
 )
 
-// CacheMiddleware caches GET requests
 func CacheMiddleware(duration time.Duration) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.Method != http.MethodGet {
@@ -111,36 +110,12 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 	return w.ResponseWriter.WriteString(s)
 }
 
-// InvalidateUserCache invalidates all cache entries for a specific user
 func InvalidateUserCache(userID uint) error {
 	pattern := fmt.Sprintf("cache:%d:*", userID)
 	utils.Logger.Info("invalidating_user_cache", zap.Uint("user_id", userID))
 	return cache.DeletePattern(pattern)
 }
 
-// InvalidateHabitCache invalidates cache for habit-related endpoints
-func InvalidateHabitCache(userID uint) error {
-	patterns := []string{
-		fmt.Sprintf("cache:%d:/api/habits", userID),
-		fmt.Sprintf("cache:%d:/api/habits/logs", userID),
-		fmt.Sprintf("user_stats:%d", userID),
-	}
-
-	for _, pattern := range patterns {
-		if err := cache.Delete(pattern); err != nil {
-			utils.Logger.Warn("cache_delete_failed",
-				zap.String("pattern", pattern),
-				zap.Error(err),
-			)
-			return err
-		}
-	}
-
-	utils.Logger.Info("habit_cache_invalidated", zap.Uint("user_id", userID))
-	return nil
-}
-
-// RateLimitMiddleware implements rate limiting using Redis
 func RateLimitMiddleware(maxRequests int, window time.Duration) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientIP := c.ClientIP()
