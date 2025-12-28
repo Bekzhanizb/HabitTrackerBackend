@@ -89,6 +89,9 @@ func main() {
 		"/api/login",
 		"/api/register",
 		"/api/cities",
+		"/api/habits",
+		"/api/habits/log",
+		"/api/diary",
 	)
 
 	r.Use(csrfMiddleware)
@@ -114,7 +117,7 @@ func main() {
 
 		habits := api.Group("/habits")
 		{
-			habits.GET("", middleware.CacheMiddleware(2*time.Minute), handlers.GetHabits)
+			habits.GET("", handlers.GetHabits)
 			habits.POST("", handlers.CreateHabit)
 			habits.POST("/log", handlers.LogHabit)
 			habits.PUT("/:id", handlers.UpdateHabit)

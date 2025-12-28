@@ -14,30 +14,59 @@ import (
 )
 
 func AuthMiddleware() gin.HandlerFunc {
-
 	var JwtKey = []byte("supersecretkey")
 
 	return func(c *gin.Context) {
-		utils.Logger.Info("AuthMiddleware started", zap.String("path", c.Request.URL.Path))
+		utils.Logger.Info("AuthMiddleware started",
+			zap.String("path", c.Request.URL.Path),
+			zap.String("method", c.Request.Method),
+			zap.String("headers", fmt.Sprintf("%v", c.Request.Header)))
 
+		// Проверяем разные места, где может быть токен
 		tokenString := c.GetHeader("Authorization")
-		if tokenString == "" || !strings.HasPrefix(tokenString, "Bearer ") {
-			utils.Logger.Warn("missing_or_invalid_token", zap.String("auth_header", tokenString))
+
+		// Если нет в заголовке Authorization, проверяем куки
+		if tokenString == "" {
+			if cookie, err := c.Request.Cookie("token"); err == nil {
+				tokenString = cookie.Value
+				utils.Logger.Info("token_from_cookie")
+			}
+		}
+
+		// Если все еще нет, проверяем query parameter
+		if tokenString == "" {
+			tokenString = c.Query("token")
+			if tokenString != "" {
+				utils.Logger.Info("token_from_query")
+			}
+		}
+
+		if tokenString == "" {
+			utils.Logger.Warn("token_not_found_anywhere")
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Missing or invalid token"})
 			c.Abort()
 			return
 		}
 
+		// Убираем "Bearer " префикс если есть
 		tokenString = strings.TrimPrefix(tokenString, "Bearer ")
-		utils.Logger.Info("token_extracted", zap.String("token_length", string(rune(len(tokenString)))))
+		utils.Logger.Info("token_cleaned",
+			zap.String("token_length", fmt.Sprintf("%d", len(tokenString))),
+			zap.String("token_start", tokenString[:min(10, len(tokenString))]))
 
 		claims := jwt.MapClaims{}
 		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+			// Проверяем алгоритм
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
 			return JwtKey, nil
 		})
 
 		if err != nil {
-			utils.Logger.Warn("token_parse_error", zap.Error(err))
+			utils.Logger.Warn("token_parse_error",
+				zap.Error(err),
+				zap.String("token", tokenString[:min(20, len(tokenString))]))
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token", "details": err.Error()})
 			c.Abort()
 			return
@@ -50,11 +79,10 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		utils.Logger.Info("token_valid", zap.Any("claims", claims))
-
 		userIDFloat, ok := claims["user_id"].(float64)
 		if !ok {
-			utils.Logger.Error("user_id_not_found_in_claims", zap.Any("claims", claims))
+			utils.Logger.Error("user_id_not_found_in_claims",
+				zap.Any("claims", claims))
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
 			c.Abort()
 			return
@@ -78,13 +106,24 @@ func AuthMiddleware() gin.HandlerFunc {
 			zap.String("username", user.Username),
 			zap.String("role", user.Role))
 
+		// Сохраняем пользователя в контексте
 		c.Set("user", user)
+		c.Set("user_id", user.ID)
 		c.Set("role", user.Role)
 
-		utils.Logger.Info("user_set_in_context", zap.Uint("user_id", user.ID))
+		utils.Logger.Info("user_set_in_context",
+			zap.Uint("user_id", user.ID),
+			zap.String("path", c.Request.URL.Path))
 
 		c.Next()
 	}
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 func RoleMiddleware(requiredRoles ...string) gin.HandlerFunc {
